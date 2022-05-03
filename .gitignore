@@ -24,3 +24,6 @@ Desktop.ini
 **/coverage
 
 .env
+
+# project-specific
+/logo
