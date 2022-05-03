@@ -1,13 +1,12 @@
-import React from 'react'
+import React from "react";
+import { Link } from "react-router-dom";
 
-const AttractionTile = ({ name }) => {
+const AttractionTile = ({ id, name }) => {
   return (
-    <div>
-      <h3> {name} </h3>
-    
+    <div className="callout">
+      <Link to={`/attractions/${id}`}> {name} </Link>
     </div>
+  );
+};
 
-  )
-}
-
-export default AttractionTile
+export default AttractionTile;

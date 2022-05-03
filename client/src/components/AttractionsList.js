@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import AttractionTile from "./AttractionTile";
 
-const AttractionsList = () => {
+const AttractionsList = (props) => {
+  //debugger
   const [attractions, setAttractions] = useState([]);
 
   const getAttractions = async () => {
@@ -23,7 +24,7 @@ const AttractionsList = () => {
     getAttractions();
   }, []);
 
-  const attractionTileComponents = attractions.map((attractionObject) => {
+  const attractionTileComponents = attractions.map((attractionObject) => { 
       return <AttractionTile key={attractionObject.id} {...attractionObject} />
   })
 
