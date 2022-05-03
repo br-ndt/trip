@@ -24,14 +24,14 @@ const AttractionsList = () => {
   }, []);
 
   const attractionTileComponents = attractions.map((attractionObject) => {
-      return <AttractionTile key={attractionObject.id} {...attractionObject} />
-  })
+    return <AttractionTile key={attractionObject.id} {...attractionObject} />;
+  });
 
   return (
-      <div className="callout">
+    <div className="callout">
       Attractions
       {attractionTileComponents}
-      </div>
-  )
+    </div>
+  );
 };
 export default AttractionsList;
