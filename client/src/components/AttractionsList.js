@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import AttractionTile from "./AttractionTile";
 
 const AttractionsList = (props) => {
-  //debugger
   const [attractions, setAttractions] = useState([]);
 
   const getAttractions = async () => {

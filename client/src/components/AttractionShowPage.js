@@ -5,7 +5,6 @@ import ReviewTile from "./ReviewTile.js";
 import translateServerErrors from "../services/translateServerErrors.js";
 
 const AttractionShowPage = (props) => {
-  //debugger
   const [attraction, setAttraction] = useState({
     attractions: [],
     reviews: [],
