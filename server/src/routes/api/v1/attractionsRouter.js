@@ -39,6 +39,4 @@ attractionsRouter.get("/:id", async (req, res) => {
   }
 })
 
-attractionsRouter.use("/:attractionId/reviews", attractionsReviewsRouter)
-
 export default attractionsRouter; 
