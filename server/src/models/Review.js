@@ -18,7 +18,7 @@ class Review extends Model {
   }
 
   static get relationMappings() {
-    const { Attraction } = require("./index.js");
+    const { Attraction, User } = require("./index.js");
 
     return {
       attraction: {
@@ -28,6 +28,14 @@ class Review extends Model {
           from: "reviews.attractionId",
           to: "attractions.id",
         },
+        user: {
+          relation: Model.BelongsToOneRelation,
+          modelClass: User,
+          join: {
+            from: "reviews.userId",
+            to: "users.id"
+          },
+        }
       },
     };
   }

@@ -1,7 +1,6 @@
 import express from "express";
 import objection from "objection"
 import { Attraction } from "../../../models/index.js";
-import attractionsReviewsRouter from "./attractionsReviewsRouter.js";
 
 const attractionsRouter = new express.Router();
 
@@ -25,7 +24,5 @@ attractionsRouter.get("/:id", async (req, res) => {
     return res.status(500).json({ errors: error })
   }
 })
-
-attractionsRouter.use("/:attractionId/reviews", attractionsReviewsRouter)
 
 export default attractionsRouter; 
