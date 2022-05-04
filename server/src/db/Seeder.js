@@ -1,16 +1,18 @@
 /* eslint-disable no-console */
-import { connection } from "../boot.js"
-import AttractionSeeder from "./seeders/AttractionSeeder.js"
+import { connection } from "../boot.js";
+import AttractionSeeder from "./seeders/AttractionSeeder.js";
+import ReviewSeeder from "./seeders/ReviewSeeder.js";
 
 class Seeder {
   static async seed() {
-    // include individual seed commands here
     console.log("seeding attractions...");
     await AttractionSeeder.seed();
+    console.log("seeding reviews...");
+    await ReviewSeeder.seed();
 
-    console.log("Done!")
-    await connection.destroy()
+    console.log("Done!");
+    await connection.destroy();
   }
 }
 
-export default Seeder
+export default Seeder;

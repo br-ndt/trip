@@ -5,20 +5,20 @@ class AttractionSeeder {
     const attractionsData = [
       {
         name: "Baha'i Gardens",
-        description: "A very beautiful garden by the ocean."
+        description: "A very beautiful garden by the ocean.",
       },
       {
         name: "Jean's House",
-        description: "Home to million dollar apps and the world's greatest Overwatch player."
+        description: "Home to million dollar apps and the world's greatest Overwatch player.",
       },
       {
         name: "Launch Academy",
-        description: "Jean-Free Zone"
-      }
-    ]
-    for(const singleAttractionData of attractionsData) {
+        description: "Jean-Free Zone",
+      },
+    ];
+    for (const singleAttractionData of attractionsData) {
       const currentAttraction = await Attraction.query().findOne(singleAttractionData);
-      if(!currentAttraction) {
+      if (!currentAttraction) {
         await Attraction.query().insert(singleAttractionData);
       }
     }
