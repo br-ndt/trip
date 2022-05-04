@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AttractionTile from "./AttractionTile";
 
-const AttractionsList = () => {
+const AttractionsList = (props) => {
   const [attractions, setAttractions] = useState([]);
 
   const getAttractions = async () => {
