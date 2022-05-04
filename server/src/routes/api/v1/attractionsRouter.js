@@ -1,7 +1,6 @@
 import express from "express";
 import objection from "objection"
 import { Attraction } from "../../../models/index.js";
-import attractionsReviewsRouter from "./attractionsReviewsRouter.js";
 
 const attractionsRouter = new express.Router();
 

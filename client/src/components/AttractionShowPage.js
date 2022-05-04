@@ -6,8 +6,9 @@ import translateServerErrors from "../services/translateServerErrors.js";
 
 const AttractionShowPage = (props) => {
   const [attraction, setAttraction] = useState({
-    attractions: [],
-    reviews: [],
+    name: "",
+    description: "",
+    reviews: []
   });
 
   const [errors, setErrors] = useState([]);

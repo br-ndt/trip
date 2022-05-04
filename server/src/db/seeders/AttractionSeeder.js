@@ -9,11 +9,11 @@ class AttractionSeeder {
       },
       {
         name: "Jean's House",
-        description: "Home to million dollar apps and the world's greatest Overwatch player.",
+        description: "Home to million dollar app ideas and the world's greatest Overwatch player.",
       },
       {
         name: "Launch Academy",
-        description: "Jean-Free Zone",
+        description: "An intensive coding bootcamp!",
       },
     ];
     for (const singleAttractionData of attractionsData) {
