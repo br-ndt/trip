@@ -10,6 +10,5 @@ rootRouter.use("/", clientRouter);
 rootRouter.use("/api/v1/users/sessions", userSessionsRouter);
 rootRouter.use("/api/v1/users", usersRouter);
 rootRouter.use("/api/v1/attractions", attractionsRouter)
-rootRouter.use("/ap1/v1/reviews", attractionsReviewsRouter)
 
 export default rootRouter;
