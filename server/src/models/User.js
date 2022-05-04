@@ -36,17 +36,17 @@ class User extends uniqueFunc(Model) {
   }
 
   static get relationMappings() {
-    const {Review} = require('./index.js')
-    return{
-      reviews:{
+    const { Review } = require("./index.js");
+    return {
+      reviews: {
         relation: Model.HasManyRelation,
         modelClass: Review,
-        join:{
-          from:'users.id',
-          to:'reviews.userId'
-        }
-      }
-    }
+        join: {
+          from: "users.id",
+          to: "reviews.userId",
+        },
+      },
+    };
   }
 
   $formatJson(json) {
