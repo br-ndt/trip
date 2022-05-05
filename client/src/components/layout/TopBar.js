@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import SignOutButton from "../authentication/SignOutButton";
+import SearchBar from "../SearchBar";
 
 const TopBar = ({ user }) => {
   const unauthenticatedListItems = [
@@ -28,6 +29,7 @@ const TopBar = ({ user }) => {
           <li>
             <Link to="/">Home</Link>
           </li>
+          <SearchBar/>
         </ul>
       </div>
       <div className="top-bar-right">
