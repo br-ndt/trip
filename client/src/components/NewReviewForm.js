@@ -39,8 +39,7 @@ const NewReviewForm = ({ postReview }) => {
         </label>
         <label>
           content:
-          <input
-            type="text"
+          <textarea
             name="content"
             onChange={handleInputChange}
             value={newReview.content}
