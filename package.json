@@ -17,6 +17,7 @@
     "e2e:run": "yarn workspace trip-e2e e2e:run"
   },
   "engines": {
-    "node": "^14.19"
+    "node": "^14.19",
+    "yarn": "^1.22.18"
   }
 }

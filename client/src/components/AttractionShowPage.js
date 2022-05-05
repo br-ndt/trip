@@ -6,7 +6,8 @@ import translateServerErrors from "../services/translateServerErrors.js";
 
 const AttractionShowPage = (props) => {
   const [attraction, setAttraction] = useState({
-    attractions: [],
+    name: "",
+    description: "",
     reviews: [],
   });
 
@@ -32,7 +33,6 @@ const AttractionShowPage = (props) => {
   useEffect(() => {
     getAttraction();
   }, []);
-
 
   const reviewTiles = attraction.reviews.map((reviewObject) => {
     return <ReviewTile key={reviewObject.id} {...reviewObject} />;

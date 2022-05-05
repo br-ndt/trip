@@ -33,9 +33,9 @@ class Review extends Model {
           modelClass: User,
           join: {
             from: "reviews.userId",
-            to: "users.id"
+            to: "users.id",
           },
-        }
+        },
       },
     };
   }
