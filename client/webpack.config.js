@@ -30,6 +30,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: "Engage",
       template: path.join(__dirname, "public/index.template.html"),
+      favicon: "./public/favicon/favicon-32x32.png",
     }),
   ],
   module: {
