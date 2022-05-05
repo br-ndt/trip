@@ -6,14 +6,17 @@ class AttractionSeeder {
       {
         name: "Baha'i Gardens",
         description: "A very beautiful garden by the ocean.",
+        locationId: 1
       },
       {
-        name: "Jean's House",
-        description: "Home to million dollar app ideas and the world's greatest Overwatch player.",
+        name: "Downtown Crossing",
+        description: "Unique area.",
+        locationId: 2
       },
       {
         name: "Launch Academy",
-        description: "Jean-Free Zone",
+        description: "Coding boot camp",
+        locationId: 3
       },
     ];
     for (const singleAttractionData of attractionsData) {

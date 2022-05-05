@@ -17,6 +17,17 @@ class Attraction extends Model {
   }
 
   static get relationMappings() {
+    const { Location } = require("./index.js");
+    return {
+      location: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: Location,
+        join: {
+          from: "attractions.locationId",
+          to: "locations.id"
+        }
+      }
+    }
     const { Review } = require("./index.js");
 
     return {

@@ -1,4 +1,14 @@
 /* eslint-disable no-console */
+import { connection } from "../boot.js"
+import LocationSeeder from "./seeders/LocationSeeder.js";
+import AttractionSeeder from "./seeders/AttractionSeeder.js"
+
+class Seeder {
+  static async seed() {
+    // include individual seed commands here
+    console.log("seeding locations...");
+    await LocationSeeder.seed();
+
 import { connection } from "../boot.js";
 import AttractionSeeder from "./seeders/AttractionSeeder.js";
 import ReviewSeeder from "./seeders/ReviewSeeder.js";
