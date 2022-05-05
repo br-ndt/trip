@@ -46,10 +46,7 @@ const LocationShowPage = (props) => {
 
   return (
     <div className="locationShow card grid-margin-x">
-      <div
-        className="locationImg-wrapper"
-        style={{ margin: "20px auto", width: "800px", height: "400px", backgroundColor: "gray" }}
-      >
+      <div className="locationImg-wrapper">
         <img className="locationImg" src="/favicon.ico" />
       </div>
       <div className="locationShow-title card-section">{locationInfo}</div>
