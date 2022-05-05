@@ -20,7 +20,7 @@ const App = (props) => {
     } catch (err) {
       setCurrentUser(null);
     }
-  }
+  };
 
   useEffect(() => {
     fetchCurrentUser();

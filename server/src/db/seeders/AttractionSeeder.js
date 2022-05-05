@@ -13,7 +13,7 @@ class AttractionSeeder {
       },
       {
         name: "Launch Academy",
-        description: "An intensive coding bootcamp!",
+        description: "Jean-Free Zone",
       },
     ];
     for (const singleAttractionData of attractionsData) {
