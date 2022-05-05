@@ -28,6 +28,18 @@ class Attraction extends Model {
         }
       }
     }
+    const { Review } = require("./index.js");
+
+    return {
+      reviews: {
+        relation: Model.HasManyRelation,
+        modelClass: Review,
+        join: {
+          from: "attractions.id",
+          to: "reviews.attractionId",
+        },
+      },
+    };
   }
 }
 
