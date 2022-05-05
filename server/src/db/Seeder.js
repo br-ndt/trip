@@ -8,13 +8,12 @@ class Seeder {
   static async seed() {
     console.log("seeding attractions...");
     await AttractionSeeder.seed();
-
     console.log("seeding users...");
     await UserSeeder.seed();
-
+    console.log("seeding users...");
+    await UserSeeder.seed();
     console.log("seeding reviews...");
     await ReviewSeeder.seed();
-
     console.log("Done!");
     await connection.destroy();
   }

@@ -28,12 +28,12 @@ class Review extends Model {
           from: "reviews.attractionId",
           to: "attractions.id",
         },
-        user: {
-          relation: Model.BelongsToOneRelation,
-          modelClass: User,
-          join: {
-            from: "reviews.userId",
-            to: "users.id",
+      user: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: User,
+        join: {
+          from: "reviews.userId",
+          to: "users.id",
           },
         },
       },
