@@ -18,7 +18,7 @@ attractionsRouter.post("/", async (req, res) => {
   const { name, description } = cleanUserInput(req.body);
   try {
     const newAttraction = await Attraction.query().insertAndFetch({ name, description });
-    return res.status(200).json({ attraction: newAttraction });
+    return res.status(201).json({ attraction: newAttraction });
   } catch (error) {
     if (error instanceof ValidationError) {
       return res.status(422).json({ errors: error.data });

@@ -33,10 +33,12 @@ const NewAttractionForm = (props) => {
       console.error(error.message);
     }
   };
+
   const handleInputChange = (event) => {
     event.preventDefault();
     setNewAttraction({ ...newAttraction, [event.currentTarget.name]: event.currentTarget.value });
   };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     addNewAttraction();
@@ -48,9 +50,9 @@ const NewAttractionForm = (props) => {
 
   return (
     <div>
+      <h3>Add a New Attraction</h3>
       <ErrorList errors={errors}/>
       <form className="attraction-form form" onSubmit={handleSubmit}>
-        <h3>Add a New Attraction</h3>
         <input type="text" name="name" placeholder="The Colosseum" onChange={handleInputChange}/>
         <textarea name="description" placeholder="Tigers are cool, but..." onChange={handleInputChange}/>
         <input className="button" type="submit"/>
