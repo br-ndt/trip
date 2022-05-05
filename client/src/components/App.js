@@ -8,6 +8,7 @@ import RegistrationForm from "./registration/RegistrationForm";
 import SignInForm from "./authentication/SignInForm";
 import TopBar from "./layout/TopBar";
 import AttractionsList from "./AttractionsList";
+import NewAttractionForm from "./NewAttractionForm";
 import AttractionShowPage from "./AttractionShowPage";
 
 const App = (props) => {
@@ -35,6 +36,7 @@ const App = (props) => {
         <Route exact path="/users/new" component={RegistrationForm} />
         <Route exact path="/user-sessions/new" component={SignInForm} />
         <Route exact path="/attractions" component={AttractionsList} />
+        <Route exact path="/attractions/new" component={NewAttractionForm} />
         <Route exact path="/attractions/:id" component={AttractionShowPage} />
       </Switch>
     </Router>

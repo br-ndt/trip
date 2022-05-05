@@ -19,6 +19,7 @@ class Review extends Model {
 
   static get relationMappings() {
     const { Attraction, User } = require("./index.js");
+    const { Attraction } = require("./index.js");
 
     return {
       attraction: {
