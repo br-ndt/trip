@@ -50,9 +50,9 @@ const AttractionShowPage = (props) => {
       <h2>{attractionDescription}</h2>
       <div>
         <h4>Add a Review</h4>
-        <NewReviewForm addNewReview={addNewReview}/>
+        <NewReviewForm attractionId={id} addNewReview={addNewReview}/>
       </div>
-      <h4>Attraction Reviews:</h4>
+      <h4>{attractionName} Reviews:</h4>
       {reviewTiles}
     </div>
   );

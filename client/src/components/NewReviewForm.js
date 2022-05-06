@@ -5,11 +5,13 @@ const NewReviewForm = (props) => {
     title: "",
     rating: "",
     content: "",
+    userId: 1,// Placeholder value
   });
 
   const addNewReview = async () => {
+    const { attractionId } = props;
     try {
-      const response = await fetch("/api/v1/attractions/:id/reviews", {
+      const response = await fetch(`/api/v1/attractions/${attractionId}/reviews`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newReview),
@@ -48,6 +50,7 @@ const NewReviewForm = (props) => {
       title: "",
       rating: "",
       content: "",
+      userId: 1
     });
   };
 

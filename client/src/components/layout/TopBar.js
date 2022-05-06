@@ -24,10 +24,10 @@ const TopBar = ({ user }) => {
     <div className="top-bar">
       <div className="top-bar-left">
         <ul className="menu">
-          <li className="menu-text">Trip</li>
-          <li>
-            <Link to="/">Home</Link>
+          <li className="icon">
+            <img src="/favicon.ico" alt=""/>
           </li>
+          <li><Link to="/">Trip</Link></li>
           <li>
             <Link to="/attractions">Attractions</Link>
           </li>
