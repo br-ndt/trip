@@ -16,7 +16,7 @@ class AttractionSeeder {
       {
         name: "Launch Academy",
         description: "Coding boot camp",
-        locationId: 3
+        locationId: 2
       },
     ];
     for (const singleAttractionData of attractionsData) {

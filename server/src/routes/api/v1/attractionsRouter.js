@@ -15,9 +15,9 @@ attractionsRouter.get("/", async (req, res) => {
 });
 
 attractionsRouter.post("/", async (req, res) => {
-  const { name, description } = cleanUserInput(req.body);
+  const { name, description, locationId } = cleanUserInput(req.body);
   try {
-    const newAttraction = await Attraction.query().insertAndFetch({ name, description });
+    const newAttraction = await Attraction.query().insertAndFetch({ name, description, locationId });
     return res.status(201).json({ attraction: newAttraction });
   } catch (error) {
     console.log(error);

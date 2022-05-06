@@ -8,6 +8,8 @@ const NewAttractionForm = (props) => {
   const [newAttraction, setNewAttraction] = useState({
     name: "",
     description: "",
+    // placeholder while we work on locationId integration
+    locationId: 2,
   });
   const [errors, setErrors] = useState([])
   const [shouldRedirect, setShouldRedirect] = useState(false);
@@ -27,6 +29,7 @@ const NewAttractionForm = (props) => {
         }
         throw new Error(`${response.status} (${response.statusText})`);
       } else {
+        props.addNewAttraction(body.attraction);
         setShouldRedirect(true);
       }
     } catch (error) {

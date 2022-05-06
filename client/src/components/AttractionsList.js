@@ -20,6 +20,10 @@ const AttractionsList = (props) => {
     }
   };
 
+  const addNewAttraction = (attraction) => {
+    setAttractions([...attractions, attraction]);
+  }
+
   useEffect(() => {
     getAttractions();
   }, []);
@@ -33,7 +37,7 @@ const AttractionsList = (props) => {
       
       <h3>Add a New Attraction:</h3>
       <div>
-        <NewAttractionForm />
+        <NewAttractionForm addNewAttraction={addNewAttraction}/>
       </div>
       <h3>Attractions:</h3>
       {attractionTileComponents}
