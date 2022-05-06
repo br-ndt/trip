@@ -50,7 +50,6 @@ const NewAttractionForm = (props) => {
 
   return (
     <div>
-      <h3>Add a New Attraction</h3>
       <ErrorList errors={errors}/>
       <form className="attraction-form form" onSubmit={handleSubmit}>
         <input type="text" name="name" placeholder="The Colosseum" onChange={handleInputChange}/>

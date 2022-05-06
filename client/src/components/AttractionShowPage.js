@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import ReviewTile from "./ReviewTile.js";
+import NewReviewForm from "./NewReviewForm.js";
 
 import translateServerErrors from "../services/translateServerErrors.js";
 
@@ -38,10 +39,17 @@ const AttractionShowPage = (props) => {
     return <ReviewTile key={reviewObject.id} {...reviewObject} />;
   });
 
+  const attractionName = attraction.name || "Launch Academy";
+  const attractionDescription = attraction.description || "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+
   return (
     <div className="callout">
-      <h1>{attraction.name}</h1>
-      <h2>{attraction.description}</h2>
+      <h1>{attractionName}</h1>
+      <h2>{attractionDescription}</h2>
+      <div>
+        <h4>Add a Review</h4>
+        <NewReviewForm/>
+      </div>
       <h4>Attraction Reviews:</h4>
       {reviewTiles}
     </div>

@@ -31,14 +31,13 @@ const NewReviewForm = ({ postReview }) => {
 
   return (
     <div>
-      <h1>Add a Review</h1>
       <form onSubmit={handleSubmit}>
         <label>
           Title:
           <input type="text" name="title" onChange={handleInputChange} value={newReview.title} />
         </label>
         <label>
-          content:
+          Content:
           <textarea
             name="content"
             onChange={handleInputChange}

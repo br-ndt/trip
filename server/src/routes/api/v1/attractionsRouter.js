@@ -20,6 +20,7 @@ attractionsRouter.post("/", async (req, res) => {
     const newAttraction = await Attraction.query().insertAndFetch({ name, description });
     return res.status(201).json({ attraction: newAttraction });
   } catch (error) {
+    console.log(error);
     if (error instanceof ValidationError) {
       return res.status(422).json({ errors: error.data });
     }

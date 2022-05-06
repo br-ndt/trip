@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AttractionTile from "./AttractionTile";
+import NewAttractionForm from "./NewAttractionForm";
 
 const AttractionsList = (props) => {
   const [attractions, setAttractions] = useState([]);
@@ -29,7 +30,12 @@ const AttractionsList = (props) => {
 
   return (
     <div className="callout">
-      Attractions
+      
+      <h3>Add a New Attraction:</h3>
+      <div>
+        <NewAttractionForm />
+      </div>
+      <h3>Attractions:</h3>
       {attractionTileComponents}
     </div>
   );
