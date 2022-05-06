@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-
 import ReviewTile from "./ReviewTile.js";
 import NewReviewForm from "./NewReviewForm.js";
-
 import translateServerErrors from "../services/translateServerErrors.js";
 
 const AttractionShowPage = (props) => {
@@ -31,6 +29,10 @@ const AttractionShowPage = (props) => {
     }
   };
 
+  const addNewReview = (review) => {
+    setAttraction({...attraction, reviews: [...attraction.reviews, review]});
+  }
+
   useEffect(() => {
     getAttraction();
   }, []);
@@ -48,7 +50,7 @@ const AttractionShowPage = (props) => {
       <h2>{attractionDescription}</h2>
       <div>
         <h4>Add a Review</h4>
-        <NewReviewForm/>
+        <NewReviewForm addNewReview={addNewReview}/>
       </div>
       <h4>Attraction Reviews:</h4>
       {reviewTiles}

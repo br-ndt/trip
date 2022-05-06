@@ -1,11 +1,34 @@
 import React, { useState } from "react";
 
-const NewReviewForm = ({ postReview }) => {
+const NewReviewForm = (props) => {
   const [newReview, setNewReview] = useState({
     title: "",
     rating: "",
     content: "",
   });
+
+  const addNewReview = async () => {
+    try {
+      const response = await fetch("/api/v1/attractions/:id/reviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newReview),
+      });
+      const body = await response.json();
+      if (!response.ok) {
+        if (response.status === 422) {
+          const newErrors = translateServerErrors(body.errors);
+          return setErrors(newErrors);
+        }
+        throw new Error(`${response.status} (${response.statusText})`);
+      } else {
+        clearForm();
+        props.addNewReview(body.review);
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
 
   const handleInputChange = (event) => {
     event.preventDefault();
@@ -17,8 +40,7 @@ const NewReviewForm = ({ postReview }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    postReview(newReview);
-    clearForm();
+    addNewReview(newReview);
   };
 
   const clearForm = () => {
@@ -53,7 +75,6 @@ const NewReviewForm = ({ postReview }) => {
             value={newReview.rating}
           />
         </label>
-
         <input type="submit" value="Add Review" />
       </form>
     </div>

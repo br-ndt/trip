@@ -29,13 +29,15 @@ const NewAttractionForm = (props) => {
         }
         throw new Error(`${response.status} (${response.statusText})`);
       } else {
+        //clearForm();
         props.addNewAttraction(body.attraction);
-        setShouldRedirect(true);
       }
     } catch (error) {
       console.error(error.message);
     }
   };
+
+  
 
   const handleInputChange = (event) => {
     event.preventDefault();
