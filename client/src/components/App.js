@@ -8,21 +8,25 @@ import RegistrationForm from "./registration/RegistrationForm";
 import SignInForm from "./authentication/SignInForm";
 import TopBar from "./layout/TopBar";
 import AttractionsList from "./AttractionsList";
+import LocationsList from "./LocationsList";
+import LocationShowPage from "./LocationShowPage";
+import NewAttractionForm from "./NewAttractionForm";
+import AttractionShowPage from "./AttractionShowPage";
 
 const App = (props) => {
   const [currentUser, setCurrentUser] = useState(undefined);
   const fetchCurrentUser = async () => {
     try {
-      const user = await getCurrentUser()
-      setCurrentUser(user)
-    } catch(err) {
-      setCurrentUser(null)
+      const user = await getCurrentUser();
+      setCurrentUser(user);
+    } catch (err) {
+      setCurrentUser(null);
     }
-  }
+  };
 
   useEffect(() => {
-    fetchCurrentUser()
-  }, [])
+    fetchCurrentUser();
+  }, []);
 
   return (
     <Router>
@@ -30,10 +34,13 @@ const App = (props) => {
       <Switch>
         <Route exact path="/">
           <h2>Hello from react</h2>
-        </Route>
         <Route exact path="/users/new" component={RegistrationForm} />
         <Route exact path="/user-sessions/new" component={SignInForm} />
         <Route exact path="/attractions" component={AttractionsList} />
+        <Route exact path="/locations" component={LocationsList} />
+        <Route exact path="/locations/:id" component={LocationShowPage} />
+        <Route exact path="/attractions/new" component={NewAttractionForm} />
+        <Route exact path="/attractions/:id" component={AttractionShowPage} />
       </Switch>
     </Router>
   );
