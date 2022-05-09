@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Redirect, Switch, Route } from "react-router-dom";
 import { hot } from "react-hot-loader/root";
 
 import getCurrentUser from "../services/getCurrentUser";
@@ -33,14 +33,18 @@ const App = (props) => {
       <TopBar user={currentUser} />
       <Switch>
         <Route exact path="/">
-          <h2>Hello from react</h2>
+          <Redirect to="/attractions"/>
+        </Route>
+        <Route exact path="/attractions">
+          <AttractionsList user={currentUser}/>
+        </Route>
         <Route exact path="/users/new" component={RegistrationForm} />
         <Route exact path="/user-sessions/new" component={SignInForm} />
-        <Route exact path="/attractions" component={AttractionsList} />
         <Route exact path="/locations" component={LocationsList} />
         <Route exact path="/locations/:id" component={LocationShowPage} />
-        <Route exact path="/attractions/new" component={NewAttractionForm} />
-        <Route exact path="/attractions/:id" component={AttractionShowPage} />
+        <Route exact path="/attractions/:id">
+          <AttractionShowPage user={currentUser}/>
+        </Route>
       </Switch>
     </Router>
   );

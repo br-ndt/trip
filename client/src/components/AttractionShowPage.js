@@ -1,19 +1,16 @@
 import React, { useState, useEffect } from "react";
-
+import { useParams } from "react-router-dom";
 import ReviewTile from "./ReviewTile.js";
-
+import NewReviewForm from "./NewReviewForm.js";
 import translateServerErrors from "../services/translateServerErrors.js";
 
 const AttractionShowPage = (props) => {
+  const { id } = useParams();
   const [attraction, setAttraction] = useState({
     name: "",
     description: "",
     reviews: [],
   });
-
-  const [errors, setErrors] = useState([]);
-
-  const id = props.match.params.id;
 
   const getAttraction = async () => {
     try {
@@ -30,6 +27,10 @@ const AttractionShowPage = (props) => {
     }
   };
 
+  const addNewReview = (review) => {
+    setAttraction({ ...attraction, reviews: [...attraction.reviews, review] });
+  };
+
   useEffect(() => {
     getAttraction();
   }, []);
@@ -38,12 +39,31 @@ const AttractionShowPage = (props) => {
     return <ReviewTile key={reviewObject.id} {...reviewObject} />;
   });
 
+  const attractionName = attraction.name ? <h1>{attraction.name}</h1> : null;
+
+  const attractionDescription = attraction.description ? <h2>{attraction.description}</h2> : null;
+
+  const reviewSection = reviewTiles.length ? (
+    <>
+      <h4>{attraction.name} Reviews:</h4>
+      {reviewTiles}
+    </>
+  ) : (
+    null
+  );
+
+  const reviewForm = props.user ? (
+    <NewReviewForm attractionId={id} addNewReview={addNewReview} />
+  ) : (
+    null
+  );
+
   return (
     <div className="callout">
-      <h1>{attraction.name}</h1>
-      <h2>{attraction.description}</h2>
-      <h4>Attraction Reviews:</h4>
-      {reviewTiles}
+      {attractionName}
+      {attractionDescription}
+      {reviewForm}
+      {reviewSection}
     </div>
   );
 };
