@@ -1,6 +1,7 @@
 import express from "express";
 import { Location } from "../../../models/index.js";
 import LocationSerializer from "../../../serializers/LocationSerializer.js";
+import locationAttractionsRouter from "./locationAttractionsRouter.js";
 
 const locationsRouter = express.Router();
 
@@ -26,5 +27,7 @@ locationsRouter.get("/:id", async (req, res) => {
     return res.status(500).json({ errors: error });
   }
 })
+
+locationsRouter.use("/:id/attractions", locationAttractionsRouter);
 
 export default locationsRouter;

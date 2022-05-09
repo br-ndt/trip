@@ -1,43 +1,68 @@
-import React, { useState } from "react";
-import { Redirect } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import translateServerErrors from "./../services/translateServerErrors.js";
+import DropDownSelect from "./DropDownSelect.js";
 import ErrorList from "./layout/ErrorList";
-import FormError from "./layout/FormError";
 
 const NewAttractionForm = (props) => {
+  const [locations, setLocations] = useState([]);
   const [newAttraction, setNewAttraction] = useState({
     name: "",
     description: "",
-    // placeholder while we work on locationId integration
-    locationId: 2,
+    locationId: 0,
   });
-  const [errors, setErrors] = useState([])
-  const [shouldRedirect, setShouldRedirect] = useState(false);
+  const [errors, setErrors] = useState({});
 
-  const addNewAttraction = async () => {
+  useEffect(() => {
+    fetchLocations();
+  }, []);
+
+  const fetchLocations = async () => {
     try {
-      const response = await fetch("/api/v1/attractions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newAttraction),
-      });
-      const body = await response.json();
+      const response = await fetch("api/v1/locations");
       if (!response.ok) {
-        if (response.status === 422) {
-          const newErrors = translateServerErrors(body.errors);
-          return setErrors(newErrors);
-        }
         throw new Error(`${response.status} (${response.statusText})`);
       } else {
-        //clearForm();
-        props.addNewAttraction(body.attraction);
+        const body = await response.json();
+        setLocations(body.locations);
       }
     } catch (error) {
       console.error(error.message);
     }
   };
 
-  
+  const postAttraction = async () => {
+    let preFetchErrors = {};
+    if (!newAttraction.name) {
+      preFetchErrors.Name = "must have a required property 'name'";
+    }
+    if (!newAttraction.locationId) {
+      preFetchErrors.Location = "must have a required property 'location'";
+    }
+    if (Object.keys(preFetchErrors).length) return setErrors(preFetchErrors);
+    else setErrors({});
+
+    try {
+      const response = await fetch(`/api/v1/locations/${newAttraction.locationId}/attractions`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newAttraction),
+      });
+      if (!response.ok) {
+        if (response.status === 422) {
+          const body = await response.json();
+          const newErrors = translateServerErrors(body.errors.data);
+          return setErrors(newErrors);
+        }
+        throw new Error(`${response.status} (${response.statusText})`);
+      } else {
+        const body = await response.json();
+        props.addNewAttraction(body.attraction);
+        clearForm();
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
 
   const handleInputChange = (event) => {
     event.preventDefault();
@@ -46,23 +71,40 @@ const NewAttractionForm = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    addNewAttraction();
+    postAttraction();
   };
 
-  if (shouldRedirect) {
-    return <Redirect push to="/attractions"></Redirect>;
-  }
+  const clearForm = () => {
+    setNewAttraction({
+      name: "",
+      description: "",
+      locationId: 0,
+    });
+  };
 
   return (
-    <div>
-      <ErrorList errors={errors}/>
+    <div className="attraction-form form">
+      <h3>Add a New Attraction:</h3>
+      <ErrorList errors={errors} />
       <form className="attraction-form form" onSubmit={handleSubmit}>
-        <input type="text" name="name" placeholder="The Colosseum" onChange={handleInputChange}/>
-        <textarea name="description" placeholder="Tigers are cool, but..." onChange={handleInputChange}/>
-        <input className="button" type="submit"/>
+        <input
+          type="text"
+          name="name"
+          placeholder="Boston Common"
+          onChange={handleInputChange}
+          value={newAttraction.name}
+        />
+        <textarea
+          name="description"
+          placeholder="The Boston Common is a central public park in downtown Boston..."
+          onChange={handleInputChange}
+          value={newAttraction.description}
+        />
+        <DropDownSelect listItems={locations} listName="locationId" onChange={handleInputChange} value={newAttraction.locationId}/>
+        <input className="button" type="submit" />
       </form>
     </div>
-  )
+  );
 };
 
 export default NewAttractionForm;
