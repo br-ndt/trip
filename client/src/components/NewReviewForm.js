@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import ReviewShowPage from "./ReviewShowPage";
 const NewReviewForm = (props) => {
   const [newReview, setNewReview] = useState({
     title: "",
@@ -55,32 +55,7 @@ const NewReviewForm = (props) => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Title:
-          <input type="text" name="title" onChange={handleInputChange} value={newReview.title} />
-        </label>
-        <label>
-          Content:
-          <textarea
-            name="content"
-            onChange={handleInputChange}
-            value={newReview.content}
-          />
-        </label>
-        <label>
-          Rating:
-          <input
-            type="number"
-            name="rating"
-            onChange={handleInputChange}
-            value={newReview.rating}
-          />
-        </label>
-        <input type="submit" value="Add Review" />
-      </form>
-    </div>
+   <NewReviewForm handleInputChange={handleInputChange} handleSubmit={handleSubmit} newReview={newReview}/>
   );
 };
 
