@@ -33,12 +33,33 @@ const AttractionShowPage = (props) => {
     setAttraction({...attraction, reviews: [...attraction.reviews, review]});
   }
 
+  const deleteReview = async (reviewId) => {
+    try {
+      const response = await fetch(`/api/v1/reviews/${reviewId}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(attraction)
+      })
+      const filteredReviews = reviews.filter((index, deletedReviewObject) => {
+        for(let i = 0; i > reviews.length; i++ ) {
+        if(deletedReviewObject === response) {
+          reviews.splice(index, deletedReviewObject)
+          return filteredReviews
+          }
+        }
+      })
+      setAttraction({...attraction, reviews: filteredReviews})
+    } catch (error) {
+      console.error(`Error in fetch: ${error.message}`)
+    }
+  }
+
   useEffect(() => {
     getAttraction();
   }, []);
-
+  
   const reviewTiles = attraction.reviews.map((reviewObject) => {
-    return <ReviewTile key={reviewObject.id} {...reviewObject} />;
+    return <ReviewTile key={reviewObject.id} {...reviewObject} deleteReview={deleteReview}/>;
   });
 
   const attractionName = attraction.name || "Launch Academy";

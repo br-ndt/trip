@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import ReviewShowPage from "./ReviewShowPage";
 
 const NewReviewForm = (props) => {
   const [newReview, setNewReview] = useState({
@@ -33,14 +32,6 @@ const NewReviewForm = (props) => {
     }
   };
 
-  const deleteReview = async () => {
-    const { reviewId } = props
-    const response = await fetch(`/api/v1/attractions/${attractionId}/reviews/${reviewsId}`, {
-      method: "DELETE",
-
-    })
-  }
-
   const handleInputChange = (event) => {
     event.preventDefault();
     setNewReview({
@@ -64,8 +55,33 @@ const NewReviewForm = (props) => {
   };
 
   return (
-    <ReviewShowPage handleInputChange={handleInputChange} handleSubmit={handleSubmit} newReview={newReview}/>
-  );
+      <div>
+        <form onSubmit={handleSubmit}>
+          <label>
+            Title:
+            <input type="text" name="title" onChange={handleInputChange} value={newReview.title} />
+          </label>
+          <label>
+            Content:
+            <textarea
+              name="content"
+              onChange={handleInputChange}
+              value={newReview.content}
+            />
+          </label>
+          <label>
+            Rating:
+            <input
+              type="number"
+              name="rating"
+              onChange={handleInputChange}
+              value={newReview.rating}
+            />
+          </label>
+          <input type="submit" value="Add Review" />
+        </form>
+      </div>
+    )
 };
 
 export default NewReviewForm;

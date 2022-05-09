@@ -16,8 +16,6 @@ attractionReviewsRouter.post("/", async (req, res) => {
   }
 });
 
-attractionReviewsRouter.delete("/", async (req, res) => {
-  const deleteReview = await Review.query().deleteById()
-})
+
 
 export default attractionReviewsRouter;
