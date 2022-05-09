@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ReviewShowPage from "./ReviewShowPage";
+
 const NewReviewForm = (props) => {
   const [newReview, setNewReview] = useState({
     title: "",
@@ -32,6 +33,14 @@ const NewReviewForm = (props) => {
     }
   };
 
+  const deleteReview = async () => {
+    const { reviewId } = props
+    const response = await fetch(`/api/v1/attractions/${attractionId}/reviews/${reviewsId}`, {
+      method: "DELETE",
+
+    })
+  }
+
   const handleInputChange = (event) => {
     event.preventDefault();
     setNewReview({
@@ -55,7 +64,7 @@ const NewReviewForm = (props) => {
   };
 
   return (
-   <NewReviewForm handleInputChange={handleInputChange} handleSubmit={handleSubmit} newReview={newReview}/>
+    <ReviewShowPage handleInputChange={handleInputChange} handleSubmit={handleSubmit} newReview={newReview}/>
   );
 };
 
