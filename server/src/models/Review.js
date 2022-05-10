@@ -8,13 +8,13 @@ class Review extends Model {
   static get jsonSchema() {
     return {
       type: "object",
-      required: ["title", "rating", "attractionId", 'userId'],
+      required: ["title", "rating", "attractionId", "userId"],
       properties: {
         title: { type: "string" },
         rating: { type: ["string", "integer"] },
         content: { type: "string" },
         attractionId: { type: ["string", "integer"] },
-        userId: { type: ["string", "integer"] }
+        userId: { type: ["string", "integer"] },
       },
     };
   }
@@ -30,13 +30,13 @@ class Review extends Model {
           from: "reviews.attractionId",
           to: "attractions.id",
         },
+      },
       user: {
         relation: Model.BelongsToOneRelation,
         modelClass: User,
         join: {
           from: "reviews.userId",
           to: "users.id",
-          },
         },
       },
     };

@@ -1,7 +1,6 @@
 import express from "express";
 import { ValidationError } from "objection";
 import cleanUserInput from "../../../services/cleanUserInput.js";
-import { Attraction } from "../../../models/index.js";
 import { Review } from "../../../models/index.js";
 
 const attractionReviewsRouter = new express.Router({ mergeParams: true });
