@@ -12,25 +12,24 @@ class Attraction extends Model {
       properties: {
         name: { type: "string", minLength: 1 },
         description: { type: "string" },
+        locationId: { type: ["string", "integer"] },
       },
     };
   }
 
   static get relationMappings() {
+    const { Review } = require("./index.js");
     const { Location } = require("./index.js");
+
     return {
       location: {
         relation: Model.BelongsToOneRelation,
         modelClass: Location,
         join: {
           from: "attractions.locationId",
-          to: "locations.id"
-        }
-      }
-    }
-    const { Review } = require("./index.js");
-
-    return {
+          to: "locations.id",
+        },
+      },
       reviews: {
         relation: Model.HasManyRelation,
         modelClass: Review,
