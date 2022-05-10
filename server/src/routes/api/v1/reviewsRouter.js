@@ -5,8 +5,8 @@ const reviewsRouter = new express.Router()
 
 reviewsRouter.delete("/:id", async (req, res) => {
   try {
-    const deletedReview = await Review.query().deleteById(req.params.id)
-    res.status(200).json({ review: deletedReview })
+    await Review.query().deleteById(req.params.id)
+    res.status(200).json({ message: "This review was successfully deleted" })
   } catch (error) {
     res.status(500).json({ errors: error });
   }

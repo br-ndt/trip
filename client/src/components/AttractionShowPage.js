@@ -11,6 +11,7 @@ const AttractionShowPage = (props) => {
     description: "",
     reviews: [],
   });
+  const [errors, setErrors] = useState([])
 
   const getAttraction = async () => {
     try {
@@ -31,12 +32,11 @@ const AttractionShowPage = (props) => {
     setAttraction({ ...attraction, reviews: [...attraction.reviews, review] });
   };
 
-  const deleteReview = async (reviewData) => {
+  const deleteReview = async (reviewId) => {
     try {
-      const response = await fetch(`/api/v1/reviews/${id}`, {
+      const response = await fetch(`/api/v1/reviews/${reviewId}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(reviewData)
       })
       if (!response.ok) {
         if (response.status === 422) {
@@ -50,11 +50,8 @@ const AttractionShowPage = (props) => {
         }
       } else {
         const body = await response.json()
-        console.log(body)
         const filteredReviews = attraction.reviews.filter((review) => {
-          if(review !== body.review) {
-            return review
-          }
+          return review.id !== reviewId
         })
         setErrors([])
         setAttraction({...attraction, reviews: filteredReviews})
