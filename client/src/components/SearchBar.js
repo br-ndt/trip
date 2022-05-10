@@ -3,33 +3,57 @@ import { Redirect } from "react-router-dom";
 
 const SearchBar = (props) => {
   const [searchText, setSearchText] = useState("");
-  const [shouldRedirect, setShouldRedirect] = useState(false);
+  const [redirect, setRedirect] = useState("");
 
   const submitSearch = (event) => {
     event.preventDefault();
-    if (searchText.length > 0) setShouldRedirect(true);
+    searchFetch();
   };
   const searchChange = (event) => {
     event.preventDefault();
     setSearchText(event.currentTarget.value);
   };
 
-  if (shouldRedirect) {
-    return <Redirect to={`/search?query=${searchText}`} />;
+  const searchFetch = async () => {
+    const response = await fetch(`/api/v1/search/${searchText}`);
+    if (!response.ok) {
+      const errorMessage = `${response.status} (${response.statusText})`;
+      const error = new Error(errorMessage);
+      throw error;
+    }
+    const body = await response.json();
+    if (body.attraction) {
+      setRedirect(`/attractions/${body.attraction.id}`);
+    } else if (body.attractions) {
+      // setRedirect(`/attractions?${body.attractions}`)
+      return;
+    } else {
+      return;
+    }
+  };
+
+  let redirectElement;
+  if (redirect) {
+    redirectElement = <Redirect to={redirect} />;
+  } else {
+    redirectElement = null;
   }
 
   return (
-    <form onSubmit={submitSearch}>
-      <input
-        value={searchText}
-        type="text"
-        name="search"
-        id="search"
-        placeholder="bannana"
-        onChange={searchChange}
-      />
-      <input type="submit" />
-    </form>
+    <>
+    { redirectElement }
+      <form onSubmit={submitSearch}>
+        <input
+          value={searchText}
+          type="text"
+          name="search"
+          id="search"
+          placeholder="bannana"
+          onChange={searchChange}
+        />
+        <input type="submit" />
+      </form>
+    </>
   );
 };
 

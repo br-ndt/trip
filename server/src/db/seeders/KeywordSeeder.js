@@ -9,11 +9,6 @@ class KeywordSeeder {
         searchCount: 0,
       },
       {
-        id: "2",
-        name: "jean",
-        searchCount: 100,
-      },
-      {
         id: "3",
         name: "launch",
         searchCount: 50,
