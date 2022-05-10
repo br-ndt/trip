@@ -8,17 +8,19 @@ class Review extends Model {
   static get jsonSchema() {
     return {
       type: "object",
-      required: ["title", "rating", "attractionId"],
+      required: ["title", "rating", "attractionId", 'userId'],
       properties: {
         title: { type: "string" },
-        rating: { type: ["integer", "string"], minimum: 1, maximum: 5 },
+        rating: { type: ["string", "integer"] },
         content: { type: "string" },
+        attractionId: { type: ["string", "integer"] },
+        userId: { type: ["string", "integer"] }
       },
     };
   }
 
   static get relationMappings() {
-    const { Attraction } = require("./index.js");
+    const { Attraction, User } = require("./index.js");
 
     return {
       attraction: {
@@ -27,6 +29,14 @@ class Review extends Model {
         join: {
           from: "reviews.attractionId",
           to: "attractions.id",
+        },
+      user: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: User,
+        join: {
+          from: "reviews.userId",
+          to: "users.id",
+          },
         },
       },
     };

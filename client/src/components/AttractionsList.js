@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AttractionTile from "./AttractionTile";
+import NewAttractionForm from "./NewAttractionForm";
 
 const AttractionsList = (props) => {
   const [attractions, setAttractions] = useState([]);
@@ -19,6 +20,10 @@ const AttractionsList = (props) => {
     }
   };
 
+  const addNewAttraction = (attraction) => {
+    setAttractions([...attractions, attraction]);
+  }
+
   useEffect(() => {
     getAttractions();
   }, []);
@@ -27,9 +32,16 @@ const AttractionsList = (props) => {
     return <AttractionTile key={attractionObject.id} {...attractionObject} />;
   });
 
+  const attractionForm = props.user ? (
+    <NewAttractionForm addNewAttraction={addNewAttraction}/>
+  ) : (
+    null
+  );
+
   return (
     <div className="callout">
-      Attractions
+      {attractionForm}
+      <h3>Attractions:</h3>
       {attractionTileComponents}
     </div>
   );
