@@ -16,6 +16,7 @@ const NewReviewForm = (props) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newReview),
       });
+      
       const body = await response.json();
       if (!response.ok) {
         if (response.status === 422) {

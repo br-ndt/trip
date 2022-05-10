@@ -7,7 +7,7 @@ const ReviewTile = ({ id, title, rating, content, deleteReview }) => {
       <h4>{title}</h4>
       <h5>{rating}</h5>
       <p>{content}</p>
-      <div onClick={deleteReview(id)}>
+      <div onClick={() => { deleteReview(id) }}>
         <input type="submit" value="Delete Review"/>
       </div>
     </div>

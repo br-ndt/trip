@@ -33,26 +33,38 @@ const AttractionShowPage = (props) => {
     setAttraction({...attraction, reviews: [...attraction.reviews, review]});
   }
 
-  const deleteReview = async (reviewId) => {
+  const deleteReview = async (reviewData) => {
     try {
-      const response = await fetch(`/api/v1/reviews/${reviewId}`, {
+      const response = await fetch(`/api/v1/reviews/${id}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(attraction)
+        body: JSON.stringify(reviewData)
       })
-      const filteredReviews = reviews.filter((index, deletedReviewObject) => {
-        for(let i = 0; i > reviews.length; i++ ) {
-        if(deletedReviewObject === response) {
-          reviews.splice(index, deletedReviewObject)
-          return filteredReviews
-          }
+      if (!response.ok) {
+        if (response.status === 422) {
+          const body = await response.json()
+          const newErrors = translateServerErrors(body.errors)
+          return setErrors(newErrors)
+        } else {
+          const errorMessage = `${response.status} (${response.statusText})`
+          const error = new Error(errorMessage)
+          throw error
         }
-      })
-      setAttraction({...attraction, reviews: filteredReviews})
-    } catch (error) {
-      console.error(`Error in fetch: ${error.message}`)
-    }
-  }
+      } else {
+        const body = await response.json()
+        console.log(body)
+        const filteredReviews = attraction.reviews.filter((review) => {
+          if(review !== body.review) {
+            return review
+          }
+        })
+        setErrors([])
+        setAttraction({...attraction, reviews: filteredReviews})
+      }
+      } catch (error) {
+          console.error(`Error in fetch: ${error.message}`)
+      }
+      }
 
   useEffect(() => {
     getAttraction();
