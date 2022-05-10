@@ -12,6 +12,7 @@ class Attraction extends Model {
       properties: {
         name: { type: "string", minLength: 1 },
         description: { type: "string" },
+        locationId: { type: ["string", "integer"] },
       },
     };
   }
@@ -26,8 +27,8 @@ class Attraction extends Model {
         modelClass: Location,
         join: {
           from: "attractions.locationId",
-          to: "locations.id"
-        }
+          to: "locations.id",
+        },
       },
       reviews: {
         relation: Model.HasManyRelation,

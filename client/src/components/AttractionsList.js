@@ -32,13 +32,15 @@ const AttractionsList = (props) => {
     return <AttractionTile key={attractionObject.id} {...attractionObject} />;
   });
 
+  const attractionForm = props.user ? (
+    <NewAttractionForm addNewAttraction={addNewAttraction}/>
+  ) : (
+    null
+  );
+
   return (
     <div className="callout">
-      
-      <h3>Add a New Attraction:</h3>
-      <div>
-        <NewAttractionForm addNewAttraction={addNewAttraction}/>
-      </div>
+      {attractionForm}
       <h3>Attractions:</h3>
       {attractionTileComponents}
     </div>

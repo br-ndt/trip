@@ -1,14 +1,17 @@
 import React, { useState } from "react";
+import ErrorList from "./layout/ErrorList";
+import translateServerErrors from "../services/translateServerErrors.js";
 
 const NewReviewForm = (props) => {
   const [newReview, setNewReview] = useState({
     title: "",
     rating: "",
     content: "",
-    userId: 1,// Placeholder value
   });
 
-  const addNewReview = async () => {
+  const [errors, setErrors] = useState({});
+
+  const postReview = async () => {
     const { attractionId } = props;
     try {
       const response = await fetch(`/api/v1/attractions/${attractionId}/reviews`, {
@@ -16,15 +19,15 @@ const NewReviewForm = (props) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newReview),
       });
-      
-      const body = await response.json();
       if (!response.ok) {
         if (response.status === 422) {
-          const newErrors = translateServerErrors(body.errors);
+          const body = await response.json();
+          const newErrors = translateServerErrors(body.errors.data);
           return setErrors(newErrors);
         }
         throw new Error(`${response.status} (${response.statusText})`);
       } else {
+        const body = await response.json();
         clearForm();
         props.addNewReview(body.review);
       }
@@ -43,7 +46,7 @@ const NewReviewForm = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    addNewReview(newReview);
+    postReview(newReview);
   };
 
   const clearForm = () => {
@@ -51,38 +54,35 @@ const NewReviewForm = (props) => {
       title: "",
       rating: "",
       content: "",
-      userId: 1
     });
   };
 
   return (
-      <div>
-        <form onSubmit={handleSubmit}>
-          <label>
-            Title:
-            <input type="text" name="title" onChange={handleInputChange} value={newReview.title} />
-          </label>
-          <label>
-            Content:
-            <textarea
-              name="content"
-              onChange={handleInputChange}
-              value={newReview.content}
-            />
-          </label>
-          <label>
-            Rating:
-            <input
-              type="number"
-              name="rating"
-              onChange={handleInputChange}
-              value={newReview.rating}
-            />
-          </label>
-          <input type="submit" value="Add Review" />
-        </form>
-      </div>
-    )
+    <div className="review-form form">
+      <h4>Add a Review:</h4>
+      <ErrorList errors={errors} />
+      <form onSubmit={handleSubmit}>
+        <label>
+          Title:
+          <input type="text" name="title" onChange={handleInputChange} value={newReview.title} />
+        </label>
+        <label>
+          Content:
+          <textarea name="content" onChange={handleInputChange} value={newReview.content} />
+        </label>
+        <label>
+          Rating:
+          <input
+            type="number"
+            name="rating"
+            onChange={handleInputChange}
+            value={newReview.rating}
+          />
+        </label>
+        <input type="submit" value="Add Review" />
+      </form>
+    </div>
+  );
 };
 
 export default NewReviewForm;
