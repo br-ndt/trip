@@ -56,17 +56,46 @@ const AttractionShowPage = (props) => {
         setErrors([])
         setAttraction({...attraction, reviews: filteredReviews})
       }
-      } catch (error) {
-          console.error(`Error in fetch: ${error.message}`)
+    } catch (error) {
+      console.error(`Error in fetch: ${error.message}`)
+    }
+  }
+
+  const editReview = async (reviewId) => {
+    try {
+      const response = await fetch(`/api/v1/reviews/${reviewId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(attraction)
+      })
+      if (!response.ok) {
+        if (response.status === 422) {
+          const body = await response.json()
+          const newErrors = translateServerErrors(body.errors)
+          return setErrors(newErrors)
+        } else {
+          const errorMessage = `${response.status} (${response.statusText})`
+          const error = new Error(errorMessage)
+          throw error
+        }
+      } else {
+        const body = await response.json()
+        const updatedReviews = attraction.reviews.findIndex(review => review.id === reviewId)
+
+        setErrors([])
+        setAttraction({...attraction, reviews: updatedReviews})
       }
-      }
+    } catch (error) {
+      console.error(`Error in fetch: ${error.message}`)
+    }
+  }
 
   useEffect(() => {
     getAttraction();
   }, []);
   
   const reviewTiles = attraction.reviews.map((reviewObject) => {
-    return <ReviewTile key={reviewObject.id} {...reviewObject} deleteReview={deleteReview}/>;
+    return <ReviewTile key={reviewObject.id} {...reviewObject} deleteReview={deleteReview} editReview={editReview} />
   });
 
   const attractionName = attraction.name ? <h1>{attraction.name}</h1> : null;

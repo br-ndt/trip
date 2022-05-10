@@ -12,4 +12,13 @@ reviewsRouter.delete("/:id", async (req, res) => {
   }
 })
 
+reviewsRouter.patch("/:id", async (req, res) => {
+  try {
+    const updatedReview = await Review.query().insertAndUpdate({ title, content, rating })
+    res.status(200).json({ review: updatedReview })
+  } catch (error) {
+    res.status(500).json({ errors: error });
+  }
+})
+
 export default reviewsRouter
