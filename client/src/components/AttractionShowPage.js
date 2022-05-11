@@ -59,7 +59,7 @@ const AttractionShowPage = (props) => {
     }
   }
 
-  const patchReview = async (reviewBody, reviewId, toggleEdit) => {
+  const patchReview = async (reviewBody, reviewId) => {
     try {
       const response = await fetch(`/api/v1/reviews/${reviewId}`, {
         method: "PATCH",
@@ -76,6 +76,7 @@ const AttractionShowPage = (props) => {
             return review
           })
           setAttraction({...attraction, reviews: updatedReviewsWithErrors})
+          return false;
         } else {
           const errorMessage = `${response.status} (${response.statusText})`
           const error = new Error(errorMessage)
@@ -96,10 +97,11 @@ const AttractionShowPage = (props) => {
         })
         setErrors({})
         setAttraction({...attraction, reviews: updatedReviews})
-        toggleEdit()
+        return true;
       }
     } catch (error) {
       console.error(`Error in fetch: ${error.message}`)
+      return false;
     }
   }
 
@@ -108,7 +110,7 @@ const AttractionShowPage = (props) => {
   }, []);
 
   const reviewTiles = attraction.reviews.map((reviewObject) => {
-    let isOwner = true;
+    let isOwner = false;
     if(props.user) {
       isOwner = reviewObject.userId === props.user.id;
     }

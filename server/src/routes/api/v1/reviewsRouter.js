@@ -22,7 +22,8 @@ reviewsRouter.delete("/:id", async (req, res) => {
 });
 
 reviewsRouter.patch("/:id", async (req, res) => {
-  const { title, content, rating } = cleanUserInput(req.body);
+  const { content } = req.body;
+  const { title, rating } = cleanUserInput(req.body);
 
   try {
     if (!title || !rating) {

@@ -15,9 +15,11 @@ const EditReviewForm = (props) => {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    props.patchReview(editReview, props.id, props.toggleEdit);
+    if (await props.patchReview(editReview, props.id)) {
+      props.toggleEdit();
+    }
   };
   
   const errorList = props.errors ? (
@@ -28,8 +30,8 @@ const EditReviewForm = (props) => {
     <div>
       <h1>Update Your Review</h1>
       {errorList}
-      <form onSubmit={(event) => {
-        handleSubmit(event)
+      <form onSubmit={async (event) => {
+        await handleSubmit(event)
       }}>
         <label>
           Title:
