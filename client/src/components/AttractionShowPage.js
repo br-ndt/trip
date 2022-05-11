@@ -65,9 +65,9 @@ const AttractionShowPage = (props) => {
 
   const reviewTiles = attraction.reviews.map((reviewObject) => {
     let isOwner = true;
-    // if(props.user) {
-    //   isOwner = reviewObject.userId === props.user.id;
-    // }
+    if(props.user) {
+      isOwner = reviewObject.userId === props.user.id;
+    }
     return (
       <ReviewTile
         key={reviewObject.id}
