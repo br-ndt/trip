@@ -49,22 +49,68 @@ const AttractionShowPage = (props) => {
       } else {
         const body = await response.json();
         const filteredReviews = attraction.reviews.filter((review) => {
-          return review.id !== reviewId;
-        });
-        setErrors({});
-        setAttraction({ ...attraction, reviews: filteredReviews });
+          return review.id !== reviewId
+        })
+        setErrors({})
+        setAttraction({...attraction, reviews: filteredReviews})
       }
     } catch (error) {
-      console.error(`Error in fetch: ${error.message}`);
+      console.error(`Error in fetch: ${error.message}`)
     }
-  };
+  }
+
+  const patchReview = async (reviewBody, reviewId) => {
+    try {
+      const response = await fetch(`/api/v1/reviews/${reviewId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(reviewBody)
+      })
+      if (!response.ok) {
+        if (response.status === 422) {
+          const body = await response.json()
+          const updatedReviewsWithErrors = attraction.reviews.map((review) => {
+            if (review.id === reviewId) {
+              review.errors = body
+            }
+            return review
+          })
+          setAttraction({...attraction, reviews: updatedReviewsWithErrors})
+          return false;
+        } else {
+          const errorMessage = `${response.status} (${response.statusText})`
+          const error = new Error(errorMessage)
+          throw error
+        }
+      } else {
+        const body = await response.json()
+        const updatedReviews = attraction.reviews.map((review) => {
+          if (review.id === reviewId) {
+            review.title = body.review.title
+            review.rating = body.review.rating
+            review.content = body.review.content
+            if (review.errors) {
+              delete review.errors
+            }
+          }
+          return review
+        })
+        setErrors({})
+        setAttraction({...attraction, reviews: updatedReviews})
+        return true;
+      }
+    } catch (error) {
+      console.error(`Error in fetch: ${error.message}`)
+      return false;
+    }
+  }
 
   useEffect(() => {
     getAttraction();
   }, []);
 
   const reviewTiles = attraction.reviews.map((reviewObject) => {
-    let isOwner = true;
+    let isOwner = false;
     if(props.user) {
       isOwner = reviewObject.userId === props.user.id;
     }
@@ -74,6 +120,7 @@ const AttractionShowPage = (props) => {
         {...reviewObject}
         deleteReview={deleteReview}
         isOwner={isOwner}
+        patchReview={patchReview}
       />
     );
   });
