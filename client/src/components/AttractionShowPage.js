@@ -95,7 +95,8 @@ const AttractionShowPage = (props) => {
   }, []);
   
   const reviewTiles = attraction.reviews.map((reviewObject) => {
-    return <ReviewTile key={reviewObject.id} {...reviewObject} deleteReview={deleteReview} editReview={editReview} />
+    const isOwner = (reviewObject.userId === props.user.id)
+    return <ReviewTile key={reviewObject.id} {...reviewObject} deleteReview={deleteReview} isOwner={isOwner}/>;
   });
 
   const attractionName = attraction.name ? <h1>{attraction.name}</h1> : null;
