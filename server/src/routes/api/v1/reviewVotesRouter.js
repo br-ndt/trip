@@ -17,14 +17,3 @@ export default reviewVotesRouter
 
 
 
-
-
-
-
-
-
-
-
-// get to get score of review, put to post & update review score from user input
-// add route to rootRouter
-
