@@ -9,6 +9,7 @@ const AttractionShowPage = (props) => {
   const [attraction, setAttraction] = useState({
     name: "",
     description: "",
+    image: "",
     reviews: [],
   });
 
@@ -43,25 +44,24 @@ const AttractionShowPage = (props) => {
 
   const attractionDescription = attraction.description ? <h2>{attraction.description}</h2> : null;
 
+  const attractionImage = attraction.image ? <img src={attraction.image} /> : null;
+
   const reviewSection = reviewTiles.length ? (
     <>
       <h4>{attraction.name} Reviews:</h4>
       {reviewTiles}
     </>
-  ) : (
-    null
-  );
+  ) : null;
 
   const reviewForm = props.user ? (
     <NewReviewForm attractionId={id} addNewReview={addNewReview} />
-  ) : (
-    null
-  );
+  ) : null;
 
   return (
     <div className="callout">
       {attractionName}
       {attractionDescription}
+      {attractionImage}
       {reviewForm}
       {reviewSection}
     </div>

@@ -48,13 +48,17 @@
     "webpack-hot-middleware": "^2.25.1"
   },
   "dependencies": {
+    "aws-sdk": "^2.842.0",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.20.0",
     "cookie-session": "^2.0.0",
+    "dropzone": "^6.0.0-beta.2",
     "express": "^4.18.1",
     "express-handlebars": "^5.2.0",
     "knex": "^2.0.0",
     "morgan": "^1.10.0",
+    "multer": "^1.4.2",
+    "multer-s3": "^2.9.0",
     "objection": "^3.0.1",
     "objection-unique": "^1.2.2",
     "passport": "^0.5.2",
