@@ -37,10 +37,22 @@ const AttractionsList = (props) => {
   ) : null;
 
   return (
-    <div className="callout">
-      {attractionForm}
-      <h3>Attractions:</h3>
-      {attractionTileComponents}
+      <div className="grid-container fluid">
+      <div class="grid-x grid-padding-x small-up-2 medium-up-4 large-up-6">
+      <div className="callout primary cell">
+        {attractionForm}
+      </div>
+        </div>
+        <div class="grid-y medium-grid-frame">
+  <div class="cell shrink header medium-cell-block-container">
+        <h3>Attractions:</h3>
+        <div class="grid-x grid-padding-x">
+      <div class="cell medium-4">
+     {attractionTileComponents}
+     </div>
+     </div>
+      </div>
+      </div>
     </div>
   );
 };

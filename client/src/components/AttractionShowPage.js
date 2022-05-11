@@ -59,9 +59,14 @@ const AttractionShowPage = (props) => {
 
   return (
     <div className="callout">
+      <div className="text-center">
       {attractionName}
-      {attractionDescription}
-      {attractionImage}
+      </div>
+      <div className="text-center">
+      IMAGE HERE{attractionImage}
+      </div>
+     <div className="text-center">Description Here{attractionDescription}
+    </div>
       {reviewForm}
       {reviewSection}
     </div>
