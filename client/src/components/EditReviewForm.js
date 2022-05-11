@@ -1,38 +1,36 @@
-import React, { useState } from "react"
+import React, { useState } from "react";
 import ErrorList from "./layout/ErrorList.js";
 
-const EditReviewForm = ({ postReview }) => {
+const EditReviewForm = (props) => {
   const [editReview, setEditReview] = useState({
-        title: "",
-        content: "",
-        rating: "",
-    })
+    title: props.title,
+    content: props.content,
+    rating: props.rating,
+  });
 
-    const handleInputChange = (event) => {
-        setEditReview({
-            ...editReview,
-            [event.currentTarget.name]: event.currentTarget.value
-        })
-    }
+  const handleInputChange = (event) => {
+    setEditReview({
+      ...editReview,
+      [event.currentTarget.name]: event.currentTarget.value,
+    });
+  };
 
-    const handleSubmit = (event) => {
-        event.preventDefault()
-        postReview(editReview)
-        clearForm()
-    }
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    props.patchReview(editReview, props.id, props.toggleEdit);
+  };
+  
+  const errorList = props.errors ? (
+    <ErrorList errors={props.errors}/>
+  ) : null
 
-    const clearForm = () => {
-        setEditReview({
-        title: "",
-        content: "",
-        rating: ""
-    })
-}
-
-return (
+  return (
     <div>
-        <h1>Update Your Review</h1>
-      <form onSubmit={handleSubmit}>
+      <h1>Update Your Review</h1>
+      {errorList}
+      <form onSubmit={(event) => {
+        handleSubmit(event)
+      }}>
         <label>
           Title:
           <input type="text" name="title" onChange={handleInputChange} value={editReview.title} />
@@ -56,6 +54,4 @@ return (
   );
 };
 
-export default EditReviewForm
-
-
+export default EditReviewForm;

@@ -11,7 +11,7 @@ const AttractionShowPage = (props) => {
     description: "",
     reviews: [],
   });
-  const [errors, setErrors] = useState([])
+  const [errors, setErrors] = useState({})
 
   const getAttraction = async () => {
     try {
@@ -42,7 +42,7 @@ const AttractionShowPage = (props) => {
         if (response.status === 422) {
           const body = await response.json()
           const newErrors = translateServerErrors(body.errors)
-          return setErrors(newErrors)
+          return setErrors(newErrors.data)
         } else {
           const errorMessage = `${response.status} (${response.statusText})`
           const error = new Error(errorMessage)
@@ -53,7 +53,7 @@ const AttractionShowPage = (props) => {
         const filteredReviews = attraction.reviews.filter((review) => {
           return review.id !== reviewId
         })
-        setErrors([])
+        setErrors({})
         setAttraction({...attraction, reviews: filteredReviews})
       }
     } catch (error) {
@@ -61,18 +61,23 @@ const AttractionShowPage = (props) => {
     }
   }
 
-  const editReview = async (reviewId) => {
+  const patchReview = async (reviewBody, reviewId, toggleEdit) => {
     try {
       const response = await fetch(`/api/v1/reviews/${reviewId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(attraction)
+        body: JSON.stringify(reviewBody)
       })
       if (!response.ok) {
         if (response.status === 422) {
           const body = await response.json()
-          const newErrors = translateServerErrors(body.errors)
-          return setErrors(newErrors)
+          const updatedReviewsWithErrors = attraction.reviews.map((review) => {
+            if (review.id === reviewId) {
+              review.errors = body
+            }
+            return review
+          })
+          setAttraction({...attraction, reviews: updatedReviewsWithErrors})
         } else {
           const errorMessage = `${response.status} (${response.statusText})`
           const error = new Error(errorMessage)
@@ -80,10 +85,20 @@ const AttractionShowPage = (props) => {
         }
       } else {
         const body = await response.json()
-        const updatedReviews = attraction.reviews.findIndex(review => review.id === reviewId)
-
-        setErrors([])
+        const updatedReviews = attraction.reviews.map((review) => {
+          if (review.id === reviewId) {
+            review.title = body.review.title
+            review.rating = body.review.rating
+            review.content = body.review.content
+            if (review.errors) {
+              delete review.errors
+            }
+          }
+          return review
+        })
+        setErrors({})
         setAttraction({...attraction, reviews: updatedReviews})
+        toggleEdit()
       }
     } catch (error) {
       console.error(`Error in fetch: ${error.message}`)
@@ -96,7 +111,7 @@ const AttractionShowPage = (props) => {
   
   const reviewTiles = attraction.reviews.map((reviewObject) => {
     const isOwner = (reviewObject.userId === props.user.id)
-    return <ReviewTile key={reviewObject.id} {...reviewObject} deleteReview={deleteReview} isOwner={isOwner}/>;
+    return <ReviewTile key={reviewObject.id} {...reviewObject} deleteReview={deleteReview} isOwner={isOwner} patchReview={patchReview}/>;
   });
 
   const attractionName = attraction.name ? <h1>{attraction.name}</h1> : null;
