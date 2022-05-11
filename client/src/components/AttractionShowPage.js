@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import ReviewTile from "./ReviewTile.js";
 import NewReviewForm from "./NewReviewForm.js";
 import translateServerErrors from "../services/translateServerErrors.js";
+import ErrorList from "./layout/ErrorList.js";
 
 const AttractionShowPage = (props) => {
   const { id } = useParams();
@@ -11,6 +12,7 @@ const AttractionShowPage = (props) => {
     description: "",
     reviews: [],
   });
+  const [errors, setErrors] = useState({});
 
   const getAttraction = async () => {
     try {
@@ -31,12 +33,49 @@ const AttractionShowPage = (props) => {
     setAttraction({ ...attraction, reviews: [...attraction.reviews, review] });
   };
 
+  const deleteReview = async (reviewId) => {
+    try {
+      const response = await fetch(`/api/v1/reviews/${reviewId}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      });
+      if (!response.ok) {
+        if (response.status === 401) {
+          const body = await response.json();
+          return setErrors(body);
+        } else {
+          throw new Error(`${response.status} (${response.statusText})`);
+        }
+      } else {
+        const body = await response.json();
+        const filteredReviews = attraction.reviews.filter((review) => {
+          return review.id !== reviewId;
+        });
+        setErrors({});
+        setAttraction({ ...attraction, reviews: filteredReviews });
+      }
+    } catch (error) {
+      console.error(`Error in fetch: ${error.message}`);
+    }
+  };
+
   useEffect(() => {
     getAttraction();
   }, []);
 
   const reviewTiles = attraction.reviews.map((reviewObject) => {
-    return <ReviewTile key={reviewObject.id} {...reviewObject} />;
+    let isOwner = true;
+    // if(props.user) {
+    //   isOwner = reviewObject.userId === props.user.id;
+    // }
+    return (
+      <ReviewTile
+        key={reviewObject.id}
+        {...reviewObject}
+        deleteReview={deleteReview}
+        isOwner={isOwner}
+      />
+    );
   });
 
   const attractionName = attraction.name ? <h1>{attraction.name}</h1> : null;
@@ -48,21 +87,20 @@ const AttractionShowPage = (props) => {
       <h4>{attraction.name} Reviews:</h4>
       {reviewTiles}
     </>
-  ) : (
-    null
-  );
+  ) : null;
 
   const reviewForm = props.user ? (
     <NewReviewForm attractionId={id} addNewReview={addNewReview} />
-  ) : (
-    null
-  );
+  ) : null;
+
+  const errorList = Object.keys(errors) ? <ErrorList errors={errors} /> : null;
 
   return (
     <div className="callout">
       {attractionName}
       {attractionDescription}
       {reviewForm}
+      {errorList}
       {reviewSection}
     </div>
   );

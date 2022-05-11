@@ -22,7 +22,7 @@ const AttractionsList = (props) => {
 
   const addNewAttraction = (attraction) => {
     setAttractions([...attractions, attraction]);
-  }
+  };
 
   useEffect(() => {
     getAttractions();
@@ -33,10 +33,8 @@ const AttractionsList = (props) => {
   });
 
   const attractionForm = props.user ? (
-    <NewAttractionForm addNewAttraction={addNewAttraction}/>
-  ) : (
-    null
-  );
+    <NewAttractionForm addNewAttraction={addNewAttraction} />
+  ) : null;
 
   return (
     <div className="callout">
