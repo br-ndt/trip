@@ -58,17 +58,18 @@ const AttractionShowPage = (props) => {
   ) : null;
 
   return (
-    <div className="callout">
-      <div className="text-center">
-      {attractionName}
+    <div className="holy-grail-grid">
+      <div className="holy-grail-header text-center">
+      <h3>{attractionName}</h3>
       </div>
-      <div className="text-center">
-      IMAGE HERE{attractionImage}
+      <div className="holy-grail-middle">
+      <h3>{attractionImage}</h3>
+    <h4>{attractionDescription}</h4>
+      <ul>{reviewSection}</ul>
       </div>
-     <div className="text-center">Description Here{attractionDescription}
-    </div>
-      {reviewForm}
-      {reviewSection}
+      <div className="holy-grail-right">
+      <h4>{reviewForm}</h4>
+      </div>
     </div>
   );
 };
