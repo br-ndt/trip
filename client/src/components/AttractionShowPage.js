@@ -111,8 +111,10 @@ const AttractionShowPage = (props) => {
 
   const reviewTiles = attraction.reviews.map((reviewObject) => {
     let isOwner = false;
+    let userLoggedIn = false;
     if(props.user) {
       isOwner = reviewObject.userId === props.user.id;
+      userLoggedIn = true;
     }
     return (
       <ReviewTile
@@ -121,6 +123,7 @@ const AttractionShowPage = (props) => {
         deleteReview={deleteReview}
         isOwner={isOwner}
         patchReview={patchReview}
+        userLoggedIn={userLoggedIn}
       />
     );
   });
