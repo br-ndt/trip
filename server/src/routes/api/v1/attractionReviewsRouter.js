@@ -12,6 +12,7 @@ attractionReviewsRouter.post("/", async (req, res) => {
 
   try {
     const newReview = await Review.query().insertAndFetch({ title, content, rating, attractionId, userId });
+    newReview.votes = [];
     return res.status(201).json({ review: newReview });
   } catch (error) {
     if(error instanceof ValidationError) {

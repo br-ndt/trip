@@ -13,6 +13,15 @@ const AttractionShowPage = (props) => {
     reviews: [],
   });
   const [errors, setErrors] = useState({});
+  console.log('the show page re-rendered');
+
+  useEffect(() => {
+    getAttraction();
+  }, []);
+
+  const addNewReview = (review) => {
+    setAttraction({ ...attraction, reviews: [...attraction.reviews, review] });
+  };
 
   const getAttraction = async () => {
     try {
@@ -27,10 +36,6 @@ const AttractionShowPage = (props) => {
     } catch (error) {
       console.error(`Error in fetch: ${error.message}`);
     }
-  };
-
-  const addNewReview = (review) => {
-    setAttraction({ ...attraction, reviews: [...attraction.reviews, review] });
   };
 
   const deleteReview = async (reviewId) => {
@@ -49,88 +54,134 @@ const AttractionShowPage = (props) => {
       } else {
         const body = await response.json();
         const filteredReviews = attraction.reviews.filter((review) => {
-          return review.id !== reviewId
-        })
-        setErrors({})
-        setAttraction({...attraction, reviews: filteredReviews})
+          return review.id !== reviewId;
+        });
+        setErrors({});
+        setAttraction({ ...attraction, reviews: filteredReviews });
       }
     } catch (error) {
-      console.error(`Error in fetch: ${error.message}`)
+      console.error(`Error in fetch: ${error.message}`);
     }
-  }
+  };
 
   const patchReview = async (reviewBody, reviewId) => {
     try {
       const response = await fetch(`/api/v1/reviews/${reviewId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(reviewBody)
-      })
+        body: JSON.stringify(reviewBody),
+      });
       if (!response.ok) {
         if (response.status === 422) {
-          const body = await response.json()
+          const body = await response.json();
           const updatedReviewsWithErrors = attraction.reviews.map((review) => {
             if (review.id === reviewId) {
-              review.errors = body
+              review.errors = body;
             }
-            return review
-          })
-          setAttraction({...attraction, reviews: updatedReviewsWithErrors})
+            return review;
+          });
+          setAttraction({ ...attraction, reviews: updatedReviewsWithErrors });
           return false;
         } else {
-          const errorMessage = `${response.status} (${response.statusText})`
-          const error = new Error(errorMessage)
-          throw error
+          const errorMessage = `${response.status} (${response.statusText})`;
+          const error = new Error(errorMessage);
+          throw error;
         }
       } else {
-        const body = await response.json()
+        const body = await response.json();
         const updatedReviews = attraction.reviews.map((review) => {
           if (review.id === reviewId) {
-            review.title = body.review.title
-            review.rating = body.review.rating
-            review.content = body.review.content
+            review.title = body.review.title;
+            review.rating = body.review.rating;
+            review.content = body.review.content;
             if (review.errors) {
-              delete review.errors
+              delete review.errors;
             }
           }
-          return review
-        })
-        setErrors({})
-        setAttraction({...attraction, reviews: updatedReviews})
+          return review;
+        });
+        setErrors({});
+        setAttraction({ ...attraction, reviews: updatedReviews });
         return true;
       }
     } catch (error) {
-      console.error(`Error in fetch: ${error.message}`)
+      console.error(`Error in fetch: ${error.message}`);
       return false;
     }
-  }
+  };
 
-  useEffect(() => {
-    getAttraction();
-  }, []);
-
-  const reviewTiles = attraction.reviews.map((reviewObject) => {
-    let isOwner = false;
-    let userLoggedIn = false;
-    if(props.user) {
-      isOwner = reviewObject.userId === props.user.id;
-      userLoggedIn = true;
+  const submitVote = async (reviewId, vote, voteVal) => {
+    let voteId;
+    if(!vote) {
+      voteId = 0;
+    } else {
+      voteId = vote.id
     }
-    return (
-      <ReviewTile
-        key={reviewObject.id}
-        {...reviewObject}
-        deleteReview={deleteReview}
-        isOwner={isOwner}
-        patchReview={patchReview}
-        userLoggedIn={userLoggedIn}
-      />
-    );
-  });
+    try {
+      const reviewToUpdate = attraction.reviews.find(review => review.id === reviewId);
+      const response = await fetch(`/api/v1/reviews/${reviewId}/votes/${voteId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ voteVal: voteVal })
+      })
+      if (!response.ok) {
+        if (response.status === 400) {
+          const body = await response.json();
+        } else {
+          throw new Error(`${response.status} (${response.statusText})`);
+        }
+      } else {
+        const body = await response.json();
+        const voteToUpdate = reviewToUpdate.votes.find(vote => vote.id === voteId);
+        let updatedReviews;
+        if(voteToUpdate) {
+          updatedReviews = attraction.reviews.map((review) => {
+            if(review.id === reviewId) {
+              review.votes = [...review.votes.filter(vote => vote.id !== voteId), body.vote];
+            }
+            return review;
+          })
+        } else {
+          updatedReviews = attraction.reviews.map((review) => {
+            if(review.id === reviewId) {
+              review.votes = [...review.votes, body.vote];
+            }
+            return review;
+          })
+        }
+        setErrors({});
+        setAttraction({ ...attraction, reviews: updatedReviews });
+      }
+    } catch (error) {
+      console.error(`Error in fetch: ${error.message}`);
+    }
+  }
 
   const attractionName = attraction.name ? <h1>{attraction.name}</h1> : null;
 
   const attractionDescription = attraction.description ? <h2>{attraction.description}</h2> : null;
+
+  const reviewTiles = attraction.reviews.map((reviewObject) => {
+    console.log(attraction.reviews);
+    let curUserId = null;
+    let userLoggedIn = false;
+    if (props.user) {
+      curUserId = props.user.id;
+      userLoggedIn = true;
+    }
+    return (
+      <ReviewTile
+        {...reviewObject}
+        key={reviewObject.id}
+        deleteReview={deleteReview}
+        curUserId={curUserId}
+        patchReview={patchReview}
+        userLoggedIn={userLoggedIn}
+        userVote={reviewObject.votes.find(vote => vote.userId === curUserId)}
+        submitVote={submitVote}
+      />
+    );
+  });
 
   const reviewSection = reviewTiles.length ? (
     <>

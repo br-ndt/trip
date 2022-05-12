@@ -2,31 +2,49 @@ import React, { useState } from "react";
 import EditReviewForm from "./EditReviewForm.js";
 import ReviewVotingArea from "./ReviewVotingArea.js";
 
-const ReviewTile = ({ id, title, rating, content, deleteReview, isOwner, patchReview, errors, userLoggedIn, totalScore }) => {
+const ReviewTile = ({
+  id,
+  title,
+  rating,
+  content,
+  deleteReview,
+  userId,
+  curUserId,
+  patchReview,
+  errors,
+  userLoggedIn,
+  userVote,
+  submitVote,
+  votes
+}) => {
   const [isBeingEdited, setIsBeingEdited] = useState(false);
 
-  const buttons = isOwner ? (
-    <div className="review-edit-delete">
-      <input
-        type="button"
-        value="Edit Review"
-        onClick={() => {
-          toggleEdit();
-        }}
-      />
-      <input
-        type="button"
-        value="Delete Review"
-        onClick={() => {
-          deleteReview(id);
-        }}
-      />
-    </div>
-  ) : null;
+  const buttons =
+    userId === curUserId ? (
+      <div className="review-edit-delete">
+        <input
+          type="button"
+          value="Edit Review"
+          onClick={() => {
+            toggleEdit();
+          }}
+        />
+        <input
+          type="button"
+          value="Delete Review"
+          onClick={() => {
+            deleteReview(id);
+          }}
+        />
+      </div>
+    ) : null;
 
   const toggleEdit = () => {
     setIsBeingEdited(!isBeingEdited);
   };
+
+  let totalScore = 0;
+  votes.forEach(vote => totalScore += vote.score);
 
   if (isBeingEdited) {
     return (
@@ -49,9 +67,12 @@ const ReviewTile = ({ id, title, rating, content, deleteReview, isOwner, patchRe
           <h4>{title}</h4>
           <h5>{rating}</h5>
         </div>
-        <ReviewVotingArea 
+        <ReviewVotingArea
+          reviewId={id}
           userLoggedIn={userLoggedIn}
           totalScore={totalScore}
+          userVote={userVote}
+          submitVote={submitVote}
         />
       </div>
       <div>

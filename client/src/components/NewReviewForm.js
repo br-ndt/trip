@@ -74,6 +74,8 @@ const NewReviewForm = (props) => {
           Rating:
           <input
             type="number"
+            min={1}
+            max={5}
             placeholder="5"
             name="rating"
             onChange={handleInputChange}

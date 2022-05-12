@@ -11,7 +11,7 @@ class Review extends Model {
       required: ["title", "rating", "attractionId", "userId"],
       properties: {
         title: { type: "string" },
-        rating: { type: ["string", "integer"] },
+        rating: { type: ["string", "integer"], minimum: 1, maximum: 5 },
         content: { type: "string" },
         attractionId: { type: ["string", "integer"] },
         userId: { type: ["string", "integer"] },
