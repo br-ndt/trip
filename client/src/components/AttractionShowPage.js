@@ -13,7 +13,6 @@ const AttractionShowPage = (props) => {
     reviews: [],
   });
   const [errors, setErrors] = useState({});
-  console.log('the show page re-rendered');
 
   useEffect(() => {
     getAttraction();
@@ -127,6 +126,7 @@ const AttractionShowPage = (props) => {
       if (!response.ok) {
         if (response.status === 400) {
           const body = await response.json();
+          setErrors({body});
         } else {
           throw new Error(`${response.status} (${response.statusText})`);
         }
@@ -162,7 +162,6 @@ const AttractionShowPage = (props) => {
   const attractionDescription = attraction.description ? <h2>{attraction.description}</h2> : null;
 
   const reviewTiles = attraction.reviews.map((reviewObject) => {
-    console.log(attraction.reviews);
     let curUserId = null;
     let userLoggedIn = false;
     if (props.user) {
@@ -181,7 +180,9 @@ const AttractionShowPage = (props) => {
         submitVote={submitVote}
       />
     );
-  });
+  }).sort((reviewA, reviewB) => {
+    return reviewB.props.totalScore - reviewA.props.totalScore;
+  }) ;
 
   const reviewSection = reviewTiles.length ? (
     <>
