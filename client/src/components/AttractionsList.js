@@ -29,7 +29,7 @@ const AttractionsList = (props) => {
   }, []);
 
   const attractionTileComponents = attractions.map((attractionObject) => {
-    return <AttractionTile key={attractionObject.id} {...attractionObject} />;
+    return <AttractionTile key={`attractionTile-${attractionObject.id}`} {...attractionObject} />;
   });
 
   const attractionForm = props.user ? (

@@ -10,8 +10,13 @@ const DropDownSelect = (props) => {
   });
 
   return (
-    <select value={props.value} name={props.listName} id={`dropdown-${props.listName}`} onChange={props.onChange}>
-      <option value={0}></option>
+    <select
+      value={props.value}
+      name={props.listName}
+      id={`dropdown-${props.listName}`}
+      onChange={props.onChange}
+    >
+      <option value={0}>(Enter Location)</option>
       {options}
     </select>
   );

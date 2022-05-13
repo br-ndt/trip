@@ -10,6 +10,7 @@ const AttractionShowPage = (props) => {
   const [attraction, setAttraction] = useState({
     name: "",
     description: "",
+    image: "",
     reviews: [],
   });
   const [errors, setErrors] = useState({});
@@ -184,6 +185,8 @@ const AttractionShowPage = (props) => {
     return reviewB.props.totalScore - reviewA.props.totalScore;
   }) ;
 
+  const attractionImage = attraction.image ? <img src={attraction.image} /> : null;
+
   const reviewSection = reviewTiles.length ? (
     <>
       <h4>{attraction.name} Reviews:</h4>
@@ -201,6 +204,7 @@ const AttractionShowPage = (props) => {
     <div className="callout">
       {attractionName}
       {attractionDescription}
+      {attractionImage}
       {reviewForm}
       {errorList}
       {reviewSection}

@@ -26,6 +26,7 @@ attractionsRouter.get("/:id", async (req, res) => {
   const serializedAttraction = await AttractionSerializer.getDetails(attraction)
     return res.status(200).json({ attraction: serializedAttraction });
   } catch (error) {
+    console.log(error)
     return res.status(500).json({ errors: error });
   }
 });

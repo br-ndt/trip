@@ -2,15 +2,20 @@ import React, { useState, useEffect } from "react";
 import translateServerErrors from "./../services/translateServerErrors.js";
 import DropDownSelect from "./DropDownSelect.js";
 import ErrorList from "./layout/ErrorList";
+import Dropzone from "react-dropzone";
 
 const NewAttractionForm = (props) => {
   const [locations, setLocations] = useState([]);
   const [newAttraction, setNewAttraction] = useState({
     name: "",
     description: "",
+    image: {},
     locationId: 0,
   });
   const [errors, setErrors] = useState({});
+  const [uploadedImage, setUploadedImage] = useState({
+    preview: "",
+  });
 
   useEffect(() => {
     fetchLocations();
@@ -42,10 +47,15 @@ const NewAttractionForm = (props) => {
     else setErrors({});
 
     try {
+      const body = new FormData();
+      body.append("name", newAttraction.name);
+      body.append("description", newAttraction.description);
+      body.append("image", newAttraction.image);
+      body.append("locationId", newAttraction.locationId);
       const response = await fetch(`/api/v1/locations/${newAttraction.locationId}/attractions`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newAttraction),
+        headers: { Accept: "image/jpeg" },
+        body: body,
       });
       if (!response.ok) {
         if (response.status === 422) {
@@ -74,11 +84,26 @@ const NewAttractionForm = (props) => {
     postAttraction();
   };
 
+  const handleImageUpload = (acceptedImage) => {
+    setNewAttraction({
+      ...newAttraction,
+      image: acceptedImage[0],
+    });
+
+    setUploadedImage({
+      preview: URL.createObjectURL(acceptedImage[0]),
+    });
+  };
+
   const clearForm = () => {
     setNewAttraction({
       name: "",
       description: "",
+      image: {},
       locationId: 0,
+    });
+    setUploadedImage({
+      preview: "",
     });
   };
 
@@ -100,7 +125,33 @@ const NewAttractionForm = (props) => {
           onChange={handleInputChange}
           value={newAttraction.description}
         />
-        <DropDownSelect listItems={locations} listName="locationId" onChange={handleInputChange} value={newAttraction.locationId}/>
+        <Dropzone onDrop={handleImageUpload}>
+          {({ getRootProps, getInputProps }) => (
+            <section>
+              <div {...getRootProps()}>
+                <input {...getInputProps()} />
+                <div className="button-group">
+                  <input
+                    className="button"
+                    type="add"
+                    onChange={handleInputChange}
+                    value="Add Image"
+                  />
+                  <div>
+                    <ul>(Click to add, or drag and drop)</ul>
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
+        </Dropzone>
+        <img src={uploadedImage.preview} />
+        <DropDownSelect
+          listItems={locations}
+          listName="locationId"
+          onChange={handleInputChange}
+          value={newAttraction.locationId}
+        />
         <input className="button" type="submit" />
       </form>
     </div>
