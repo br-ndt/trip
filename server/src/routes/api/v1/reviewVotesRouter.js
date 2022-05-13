@@ -23,7 +23,7 @@ reviewVotesRouter.put("/:voteId", async (req, res) => {
       } else {
         newVote = await Vote.query().insertAndFetch({ reviewId, userId: req.user.id, score: voteVal });
       }
-      const serializedVote = VoteSerializer.getSummary(newVote);
+      const serializedVote = await VoteSerializer.getSummary(newVote);
       res.status(200).json({ vote: serializedVote });
     } else {
       res

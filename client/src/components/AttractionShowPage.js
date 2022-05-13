@@ -222,7 +222,7 @@ const AttractionShowPage = (props) => {
 
       <div className="holy-grail-left">
         <h3>{attractionImage}</h3>
-        </div>
+      </div>
       <div className="holy-grail-middle">
         <h3>{attractionDescription}</h3>
       </div>

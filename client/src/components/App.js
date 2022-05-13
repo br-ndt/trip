@@ -12,7 +12,7 @@ import LocationsList from "./LocationsList";
 import LocationShowPage from "./LocationShowPage";
 import NewAttractionForm from "./NewAttractionForm";
 import AttractionShowPage from "./AttractionShowPage";
-import Home from "./Home"
+import Home from "./Home";
 
 const App = (props) => {
   const [currentUser, setCurrentUser] = useState(undefined);
@@ -35,14 +35,14 @@ const App = (props) => {
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/attractions">
-          <AttractionsList user={currentUser}/>
+          <AttractionsList user={currentUser} />
         </Route>
         <Route exact path="/users/new" component={RegistrationForm} />
         <Route exact path="/user-sessions/new" component={SignInForm} />
         <Route exact path="/locations" component={LocationsList} />
         <Route exact path="/locations/:id" component={LocationShowPage} />
         <Route exact path="/attractions/:id">
-          <AttractionShowPage user={currentUser}/>
+          <AttractionShowPage user={currentUser} />
         </Route>
       </Switch>
     </Router>

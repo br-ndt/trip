@@ -80,7 +80,6 @@ const ReviewTile = ({
       </div>
       <div className="">
         <p>{content}</p>
-        <p>Posted by {creator}</p>
         {buttons}
       </div>
       <hr />
