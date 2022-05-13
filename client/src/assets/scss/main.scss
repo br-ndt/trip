@@ -44,7 +44,7 @@ body {
 }
 
 .top-bar {
-  background-color: #ffa07a;
+  background-color: #49DCB1;
   border-radius: 25px;
   font-family: "Comfortaa";
 }
@@ -133,7 +133,7 @@ body {
   background-color: #177e89;
   color: white;
   border: none;
-  border-radius: 10px;
+  border-radius: 7px;
 }
 
 .red {
@@ -163,4 +163,11 @@ $hero-height: 50vh;
     text-shadow: 1px 1px 2px $black;
   }
 }
+}
+.logo {
+  max-width: 10%;
+  max-height: 10%;
+}
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+  font-family: "Comfortaa";
 }

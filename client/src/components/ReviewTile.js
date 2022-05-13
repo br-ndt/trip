@@ -64,7 +64,7 @@ const ReviewTile = ({
   }
 
   return (
-    <div className="review-tile">
+    <div className="review-tile review-boxes">
       <div className="review-header">
         <div className="review-title-rating">
           <h4>{title}</h4>
@@ -78,7 +78,7 @@ const ReviewTile = ({
           submitVote={submitVote}
         />
       </div>
-      <div className="review-boxes">
+      <div className="">
         <p>{content}</p>
         <p>Posted by {creator}</p>
         {buttons}

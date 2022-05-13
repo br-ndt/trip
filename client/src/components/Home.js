@@ -37,7 +37,7 @@ const Home = () => {
         <h2> Destination Evaluation </h2>
         </div>
       <div className="icon text-center">
-            <h2><img src="/favicon.ico" alt=""/></h2>
+            <img className="logo"src="/logo_shadow.png" alt=""/>
           </div>
       </div>
       <hr />
