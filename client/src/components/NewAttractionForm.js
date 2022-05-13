@@ -81,9 +81,6 @@ const NewAttractionForm = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const body = new FormData();
-    body.append("image", newAttraction.image);
-    props.addNewAttraction(body);
     postAttraction();
   };
 

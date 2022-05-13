@@ -2,14 +2,17 @@ import express from "express";
 import { Review } from "../../../models/index.js";
 import cleanUserInput from "../../../services/cleanUserInput.js";
 import { ValidationError } from "objection";
+import reviewVotesRouter from "./reviewVotesRouter.js";
 
 const reviewsRouter = new express.Router();
 
+reviewsRouter.use("/:id/votes", reviewVotesRouter);
 reviewsRouter.delete("/:id", async (req, res) => {
   try {
     const reviewToDelete = await Review.query().findById(req.params.id);
     if (req.user && reviewToDelete.userId === req.user.id) {
-      await Review.query().deleteById(req.params.id);
+      await reviewToDelete.$relatedQuery("votes").delete();
+      await reviewToDelete.$query().delete();
       res.status(200).json({ message: "This review was successfully deleted" });
     } else {
       res
@@ -47,5 +50,6 @@ reviewsRouter.patch("/:id", async (req, res) => {
     }
   }
 });
+
 
 export default reviewsRouter;

@@ -36,7 +36,7 @@ class User extends uniqueFunc(Model) {
   }
 
   static get relationMappings() {
-    const { Review } = require("./index.js");
+    const { Review, Vote } = require("./index.js");
     return {
       reviews: {
         relation: Model.HasManyRelation,
@@ -44,6 +44,26 @@ class User extends uniqueFunc(Model) {
         join: {
           from: "users.id",
           to: "reviews.userId",
+        },
+      },
+      reviewVotes: {
+        relation: Model.ManyToManyRelation,
+        modelClass: Review,
+        join: {
+          from: "users.id",
+          through: {
+            from: "votes.userId",
+            to: "votes.reviewId",
+          },
+          to: "reviews.id",
+        },
+      },
+      votes: {
+        relation: Model.HasManyRelation,
+        modelClass: Vote,
+        join: {
+          from: "users.id",
+          to: "votes.userId",
         },
       },
     };

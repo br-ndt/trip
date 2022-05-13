@@ -64,16 +64,19 @@ const NewReviewForm = (props) => {
       <form onSubmit={handleSubmit}>
         <label>
           Title:
-          <input type="text" name="title" onChange={handleInputChange} value={newReview.title} />
+          <input type="text" name="title" placeholder="Loved this attraction" onChange={handleInputChange} value={newReview.title} />
         </label>
         <label>
           Content:
-          <textarea name="content" onChange={handleInputChange} value={newReview.content} />
+          <textarea name="content" placeholder="My family and I had a great time..." onChange={handleInputChange} value={newReview.content} />
         </label>
         <label>
           Rating:
           <input
             type="number"
+            min={1}
+            max={5}
+            placeholder="5"
             name="rating"
             onChange={handleInputChange}
             value={newReview.rating}

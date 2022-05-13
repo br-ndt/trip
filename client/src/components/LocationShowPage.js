@@ -26,8 +26,6 @@ const LocationShowPage = (props) => {
     }
   };
 
-  console.log(location.city);
-
   const locationInfo = location.city ? (
     <>
       <h1>{location.city}</h1>

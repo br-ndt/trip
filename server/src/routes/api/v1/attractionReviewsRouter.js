@@ -1,7 +1,6 @@
 import express from "express";
 import { ValidationError } from "objection";
 import cleanUserInput from "../../../services/cleanUserInput.js";
-import { Attraction } from "../../../models/index.js";
 import { Review } from "../../../models/index.js";
 
 const attractionReviewsRouter = new express.Router({ mergeParams: true });
@@ -13,6 +12,7 @@ attractionReviewsRouter.post("/", async (req, res) => {
 
   try {
     const newReview = await Review.query().insertAndFetch({ title, content, rating, attractionId, userId });
+    newReview.votes = [];
     return res.status(201).json({ review: newReview });
   } catch (error) {
     if(error instanceof ValidationError) {
