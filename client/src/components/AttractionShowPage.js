@@ -126,15 +126,15 @@ const AttractionShowPage = (props) => {
     );
   });
 
-  const attractionName = attraction.name ? <h1>{attraction.name}</h1> : null;
+  const attractionName = attraction.name ? <div className="holy-grail-header">{attraction.name}</div> : null;
 
-  const attractionDescription = attraction.description ? <h2>{attraction.description}</h2> : null;
+  const attractionDescription = attraction.description ? <div className="holy-grail-middle">{attraction.description}</div> : null;
 
-  const attractionImage = attraction.image ? <img src={attraction.image} /> : null;
+  const attractionImage = attraction.image ? <div className="holy-grail-middle"> <img src={attraction.image}></img> </div> : null;
 
   const reviewSection = reviewTiles.length ? (
     <>
-      <h4>{attraction.name} Reviews:</h4>
+      <div className="holy-grail-footer"><h3>{attraction.name} Reviews:</h3></div>
       {reviewTiles}
     </>
   ) : null;
@@ -145,17 +145,21 @@ const AttractionShowPage = (props) => {
   
   return (
     <div className="holy-grail-grid">
-      <div className="holy-grail-header text-center">
-      <h3>{attractionName}</h3>
+      <div className="holy-grail-header">
+      <h1>{attractionName}</h1>
       </div>
-      <div className="holy-grail-middle">
-      <h3>{attractionImage}</h3>
-    <h4>{attractionDescription}</h4>
-      <ul>{reviewSection}</ul>
+      <div className="holy-grail-middle shrink">
+      {attractionImage}
+    </div>
+    <div className="holy-grail-left shrink">
+   <h3>{attractionDescription}</h3>
       </div>
-      <div className="holy-grail-right">
+      <div className="holy-grail-right shrink">
       <h4>{reviewForm}</h4>
       </div>
+      <div className="holy-grail-footer shrink">
+      <ul>{reviewSection}</ul>
+  </div>
     </div>
   );
 };

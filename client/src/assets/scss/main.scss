@@ -8,6 +8,7 @@
   box-sizing: border-box;
 }
 
+
 :root {
   -moz-tab-size: 4;
   tab-size: 4;
@@ -22,6 +23,7 @@
 
 .top-bar {
   background-color: #FFA07A;
+  border-radius: 25px;
 }
 
 .drag-n-drop {
@@ -33,7 +35,7 @@
   display: grid;
   grid-template-columns: 1fr 3fr 1fr;
   grid-template-rows: 1fr 8fr 1fr;
-  grid-gap: 20px;
+  grid-gap: 50px;
   height: 100vh;
 
   // redefining grid on small
@@ -42,51 +44,89 @@
   }
 }
 
-.holy-grail-header,
-.holy-grail-left,
-.holy-grail-middle,
-.holy-grail-right,
-.holy-grail-footer {
-  padding: 1rem;
-  border: 1px solid #ededed;
-  background-color: #ededed
-}
+// .holy-grail-header,
+// .holy-grail-left,
+// .holy-grail-middle,
+// .holy-grail-right,
+// .holy-grail-footer {
+//   padding: 1rem;
+//   border: 1px solid #ededed;
+//   background-color: #D7BEA8;
+// }
 
 .holy-grail-header {
-  @media screen and (max-width: 20em) {
-  margin: auto;
   grid-column-start: 1;
   grid-column-end: 4;
   grid-row-start: 1;
-}
+  padding-top: 5px;
+  text-align: center;
+  background-color: #FFA07A;
+  margin:0.5em;
+  border-radius: 25px;
 }
 
 .holy-grail-left {
-  @media screen and (max-width: 20em) {
+  @media screen and (max-width: 60em) {
+    margin-right: 5em;
     grid-row-start: 2;
     grid-column-start: 1;
     grid-column-end: 4;
+    margin-left: 0;
+    border-radius: 25px;
   }
 }
 
 .holy-grail-middle {
-  @media screen and (max-width: 80em) {
-    grid-row-start: 3;
+  width: 100%;
+    display: flex;
+    background-color: #D7BEA8;
+    grid-row-start: 0;
+    grid-column-start: 0;
+    grid-column-end: 0;
+    padding: 35px auto;
+    border-radius: 25px;
+  }
+
+.holy-grail-right {
+  @media screen and (max-width: 60em) {
+    background-color: #177E89;
+    grid-row-start: 4;
     grid-column-start: 1;
     grid-column-end: 4;
   }
 }
 
-.right-nav {
-  @media screen and (max-width: 10em) {
-    grid-row-start: 4;
-    grid-column-start: 1;
-    grid-column-end: 2;
-  }
-}
-
 .holy-grail-footer {
+  text-align: center;
+  font-size: large;
+  background-color: #D7BEA8;
+  color: #3D2C2E;
   grid-column-start: 1;
   grid-column-end: 4;
 }
+
+.review-boxes {
+  text-align: left;
+    box-shadow: 0 0 0 1em #3D2C2E;
+    margin: 1em;
+    padding:0.5em;
+    border-radius: 25px;
+  }
+
+.review-form form {
+  box-shadow: 0 0 0 1em #3D2C2E;
+  margin: 1em;
+  padding:0.5em;
+  border-radius: 25px;
+}
+
+.button {
+  position: auto;
+  top:50%;
+  background-color: #177E89;
+  color: white;
+  border:none;
+  border-radius:10px;
+}
+
 

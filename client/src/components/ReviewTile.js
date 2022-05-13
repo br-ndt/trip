@@ -6,6 +6,7 @@ const ReviewTile = ({ id, title, rating, content, deleteReview, isOwner, patchRe
 
   const editButton = isOwner ? (
     <input
+    className="button"
       type="button"
       value="Edit Review"
       onClick={() => {
@@ -16,6 +17,7 @@ const ReviewTile = ({ id, title, rating, content, deleteReview, isOwner, patchRe
 
   const deleteButton = isOwner ? (
     <input
+    className="button"
       type="button"
       value="Delete Review"
       onClick={() => {
@@ -33,7 +35,7 @@ const ReviewTile = ({ id, title, rating, content, deleteReview, isOwner, patchRe
   }
 
   return (
-    <div>
+    <div className="review-boxes">
       <h4>{title}</h4>
       <h5>{rating}</h5>
       <p>{content}</p>

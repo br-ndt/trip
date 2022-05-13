@@ -37,11 +37,13 @@ const AttractionsList = (props) => {
   ) : null;
 
   return (
-      <div className="callout success">
+      <div className="review-form">
         {attractionForm}
+        <div className="callout primary text-center">
         <p>Attractions:</p>
-     {attractionTileComponents}
+     <h4>{attractionTileComponents}</h4>
+     </div>
         </div>
-  );
+  ); 
 };
 export default AttractionsList;

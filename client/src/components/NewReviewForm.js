@@ -79,9 +79,9 @@ const NewReviewForm = (props) => {
             value={newReview.rating}
           />
         </label>
-        <input type="submit" value="Add Review" />
+        <input className="button" type="submit" value="Add Review" />
       </form>
-    </div>
+      </div>
   );
 };
 
