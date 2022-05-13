@@ -37,12 +37,14 @@ const AttractionsList = (props) => {
   ) : null;
 
   return (
+    <div className="holy-grail-header">
       <div className="review-form">
         {attractionForm}
-        <div className="callout primary text-center">
+        <div className="holy-grail-middle text-center">
         <p>Attractions:</p>
-     <h4>{attractionTileComponents}</h4>
+     <h3>{attractionTileComponents}</h3>
      </div>
+        </div>
         </div>
   ); 
 };

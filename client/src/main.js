@@ -7,7 +7,6 @@ import RedBox from "redbox-react";
 
 document.addEventListener("DOMContentLoaded", () => {
   let reactElement = document.getElementById("app");
-
   if (reactElement) {
     if (config.nodeEnv === "development") {
       try {

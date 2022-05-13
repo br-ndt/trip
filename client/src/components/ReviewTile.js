@@ -8,7 +8,7 @@ const ReviewTile = ({
   rating,
   content,
   deleteReview,
-  userId,
+  creatorId,
   curUserId,
   patchReview,
   errors,
@@ -16,13 +16,15 @@ const ReviewTile = ({
   userVote,
   submitVote,
   votes,
+  creator
 }) => {
   const [isBeingEdited, setIsBeingEdited] = useState(false);
 
   const buttons =
-    userId === curUserId ? (
+    creatorId === curUserId ? (
       <div className="review-edit-delete">
         <input
+        className="button"
           type="button"
           value="Edit Review"
           onClick={() => {
@@ -30,6 +32,7 @@ const ReviewTile = ({
           }}
         />
         <input
+        className="button"
           type="button"
           value="Delete Review"
           onClick={() => {
@@ -75,8 +78,9 @@ const ReviewTile = ({
           submitVote={submitVote}
         />
       </div>
-      <div>
+      <div className="review-boxes">
         <p>{content}</p>
+        <p>Posted by {creator}</p>
         {buttons}
       </div>
       <hr />

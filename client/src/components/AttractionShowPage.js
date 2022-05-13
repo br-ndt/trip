@@ -170,6 +170,8 @@ const AttractionShowPage = (props) => {
         <ReviewTile
           {...reviewObject}
           key={reviewObject.id}
+          creatorId={reviewObject.userId}
+          creator={reviewObject.user}
           deleteReview={deleteReview}
           curUserId={curUserId}
           patchReview={patchReview}
@@ -192,9 +194,8 @@ const AttractionShowPage = (props) => {
   ) : null;
 
   const attractionImage = attraction.image ? (
-    <div className="holy-grail-middle">
-      {" "}
-      <img src={attraction.image}></img>{" "}
+    <div className="holy-grail-left">
+      <img src={attraction.image}></img>
     </div>
   ) : null;
 
@@ -215,16 +216,23 @@ const AttractionShowPage = (props) => {
 
   return (
     <div className="holy-grail-grid">
-      <div className="holy-grail-header">
+      <div className="holy-grail-header text-center">
         <h1>{attractionName}</h1>
       </div>
-      <div className="holy-grail-middle shrink">{attractionImage}</div>
-      <div className="holy-grail-left shrink">{attractionDescription}</div>
-      <div className="holy-grail-right shrink">
-        {errorList}
-        {reviewForm}
+
+      <div className="holy-grail-left">
+        <h3>{attractionImage}</h3>
+        </div>
+      <div className="holy-grail-middle">
+        <h3>{attractionDescription}</h3>
       </div>
-      <div className="holy-grail-footer shrink">
+
+      <div className="holy-grail-right">
+        {errorList}
+        <h3>{reviewForm}</h3>
+      </div>
+
+      <div className="holy-grail-footer">
         <ul>{reviewSection}</ul>
       </div>
     </div>

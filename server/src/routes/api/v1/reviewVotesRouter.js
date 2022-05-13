@@ -1,5 +1,6 @@
 import express from "express";
-import { Review, Vote, User } from "../../../models/index.js";
+import VoteSerializer from "../../../serializers/VoteSerializer.js";
+import { Vote } from "../../../models/index.js";
 
 const reviewVotesRouter = new express.Router({ mergeParams: true });
 
@@ -22,7 +23,8 @@ reviewVotesRouter.put("/:voteId", async (req, res) => {
       } else {
         newVote = await Vote.query().insertAndFetch({ reviewId, userId: req.user.id, score: voteVal });
       }
-      res.status(200).json({ vote: newVote });
+      const serializedVote = VoteSerializer.getSummary(newVote);
+      res.status(200).json({ vote: serializedVote });
     } else {
       res
         .status(401)
