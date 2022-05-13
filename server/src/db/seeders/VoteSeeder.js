@@ -11,11 +11,11 @@ class VoteSeeder {
       {
         userId: 2,
         reviewId: 2,
-        score: -1
+        score: 1
       },
       {
         userId: 1,
-        reviewId: 1,
+        reviewId: 2,
         score: -1
       },
     ];

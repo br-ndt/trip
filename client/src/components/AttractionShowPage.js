@@ -112,43 +112,43 @@ const AttractionShowPage = (props) => {
 
   const submitVote = async (reviewId, vote, voteVal) => {
     let voteId;
-    if(!vote) {
+    if (!vote) {
       voteId = 0;
     } else {
-      voteId = vote.id
+      voteId = vote.id;
     }
     try {
-      const reviewToUpdate = attraction.reviews.find(review => review.id === reviewId);
+      const reviewToUpdate = attraction.reviews.find((review) => review.id === reviewId);
       const response = await fetch(`/api/v1/reviews/${reviewId}/votes/${voteId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ voteVal: voteVal })
-      })
+        body: JSON.stringify({ voteVal: voteVal }),
+      });
       if (!response.ok) {
         if (response.status === 400) {
           const body = await response.json();
-          setErrors({body});
+          setErrors({ body });
         } else {
           throw new Error(`${response.status} (${response.statusText})`);
         }
       } else {
         const body = await response.json();
-        const voteToUpdate = reviewToUpdate.votes.find(vote => vote.id === voteId);
+        const voteToUpdate = reviewToUpdate.votes.find((vote) => vote.id === voteId);
         let updatedReviews;
-        if(voteToUpdate) {
+        if (voteToUpdate) {
           updatedReviews = attraction.reviews.map((review) => {
-            if(review.id === reviewId) {
-              review.votes = [...review.votes.filter(vote => vote.id !== voteId), body.vote];
+            if (review.id === reviewId) {
+              review.votes = [...review.votes.filter((vote) => vote.id !== voteId), body.vote];
             }
             return review;
-          })
+          });
         } else {
           updatedReviews = attraction.reviews.map((review) => {
-            if(review.id === reviewId) {
+            if (review.id === reviewId) {
               review.votes = [...review.votes, body.vote];
             }
             return review;
-          })
+          });
         }
         setErrors({});
         setAttraction({ ...attraction, reviews: updatedReviews });
@@ -156,40 +156,54 @@ const AttractionShowPage = (props) => {
     } catch (error) {
       console.error(`Error in fetch: ${error.message}`);
     }
-  }
+  };
 
-  const attractionName = attraction.name ? <h1>{attraction.name}</h1> : null;
+  const reviewTiles = attraction.reviews
+    .map((reviewObject) => {
+      let curUserId = null;
+      let userLoggedIn = false;
+      if (props.user) {
+        curUserId = props.user.id;
+        userLoggedIn = true;
+      }
+      return (
+        <ReviewTile
+          {...reviewObject}
+          key={reviewObject.id}
+          creatorId={reviewObject.userId}
+          creator={reviewObject.user}
+          deleteReview={deleteReview}
+          curUserId={curUserId}
+          patchReview={patchReview}
+          userLoggedIn={userLoggedIn}
+          userVote={reviewObject.votes.find((vote) => vote.userId === curUserId)}
+          submitVote={submitVote}
+        />
+      );
+    })
+    .sort((reviewA, reviewB) => {
+      return reviewB.props.totalScore - reviewA.props.totalScore;
+    });
 
-  const attractionDescription = attraction.description ? <h2>{attraction.description}</h2> : null;
+  const attractionName = attraction.name ? (
+    <div className="holy-grail-header">{attraction.name}</div>
+  ) : null;
 
-  const reviewTiles = attraction.reviews.map((reviewObject) => {
-    let curUserId = null;
-    let userLoggedIn = false;
-    if (props.user) {
-      curUserId = props.user.id;
-      userLoggedIn = true;
-    }
-    return (
-      <ReviewTile
-        {...reviewObject}
-        key={reviewObject.id}
-        deleteReview={deleteReview}
-        curUserId={curUserId}
-        patchReview={patchReview}
-        userLoggedIn={userLoggedIn}
-        userVote={reviewObject.votes.find(vote => vote.userId === curUserId)}
-        submitVote={submitVote}
-      />
-    );
-  }).sort((reviewA, reviewB) => {
-    return reviewB.props.totalScore - reviewA.props.totalScore;
-  }) ;
+  const attractionDescription = attraction.description ? (
+    <div className="holy-grail-middle">{attraction.description}</div>
+  ) : null;
 
-  const attractionImage = attraction.image ? <img src={attraction.image} /> : null;
+  const attractionImage = attraction.image ? (
+    <div className="holy-grail-left">
+      <img src={attraction.image}></img>
+    </div>
+  ) : null;
 
   const reviewSection = reviewTiles.length ? (
     <>
-      <h4>{attraction.name} Reviews:</h4>
+      <div className="holy-grail-footer">
+        <h3>{attraction.name} Reviews:</h3>
+      </div>
       {reviewTiles}
     </>
   ) : null;
@@ -201,13 +215,26 @@ const AttractionShowPage = (props) => {
   const errorList = Object.keys(errors) ? <ErrorList errors={errors} /> : null;
 
   return (
-    <div className="callout">
-      {attractionName}
-      {attractionDescription}
-      {attractionImage}
-      {reviewForm}
-      {errorList}
-      {reviewSection}
+    <div className="holy-grail-grid">
+      <div className="holy-grail-header text-center">
+        <h1>{attractionName}</h1>
+      </div>
+
+      <div className="holy-grail-left">
+        <h3>{attractionImage}</h3>
+        </div>
+      <div className="holy-grail-middle">
+        <h3>{attractionDescription}</h3>
+      </div>
+
+      <div className="holy-grail-right">
+        {errorList}
+        <h3>{reviewForm}</h3>
+      </div>
+
+      <div className="holy-grail-footer">
+        <ul>{reviewSection}</ul>
+      </div>
     </div>
   );
 };

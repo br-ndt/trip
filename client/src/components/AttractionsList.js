@@ -37,11 +37,15 @@ const AttractionsList = (props) => {
   ) : null;
 
   return (
-    <div className="callout">
-      {attractionForm}
-      <h3>Attractions:</h3>
-      {attractionTileComponents}
-    </div>
-  );
+    <div className="holy-grail-header">
+      <div className="review-form">
+        {attractionForm}
+        <div className="holy-grail-middle text-center">
+        <p>Attractions:</p>
+     <h3>{attractionTileComponents}</h3>
+     </div>
+        </div>
+        </div>
+  ); 
 };
 export default AttractionsList;

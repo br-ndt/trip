@@ -108,7 +108,9 @@ const NewAttractionForm = (props) => {
   };
 
   return (
-    <div className="attraction-form form">
+    <div className="grid-container">
+    <div className="grid-x grid-padding-x">
+      <div className="large-12 cell">
       <h3>Add a New Attraction:</h3>
       <ErrorList errors={errors} />
       <form className="attraction-form form" onSubmit={handleSubmit}>
@@ -131,13 +133,15 @@ const NewAttractionForm = (props) => {
               <div {...getRootProps()}>
                 <input {...getInputProps()} />
                 <div className="button-group">
+                <div className="text-center">
                   <input
                     className="button"
                     type="add"
                     onChange={handleInputChange}
                     value="Add Image"
-                  />
-                  <div>
+                    />
+                    </div>
+                  <div className="drag-n-drop">
                     <ul>(Click to add, or drag and drop)</ul>
                   </div>
                 </div>
@@ -152,8 +156,12 @@ const NewAttractionForm = (props) => {
           onChange={handleInputChange}
           value={newAttraction.locationId}
         />
+        <div className="text-center">
         <input className="button" type="submit" />
+        </div>
       </form>
+    </div>
+    </div>
     </div>
   );
 };

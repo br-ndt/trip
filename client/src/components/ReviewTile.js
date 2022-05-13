@@ -8,21 +8,23 @@ const ReviewTile = ({
   rating,
   content,
   deleteReview,
-  userId,
+  creatorId,
   curUserId,
   patchReview,
   errors,
   userLoggedIn,
   userVote,
   submitVote,
-  votes
+  votes,
+  creator
 }) => {
   const [isBeingEdited, setIsBeingEdited] = useState(false);
 
   const buttons =
-    userId === curUserId ? (
+    creatorId === curUserId ? (
       <div className="review-edit-delete">
         <input
+        className="button"
           type="button"
           value="Edit Review"
           onClick={() => {
@@ -30,6 +32,7 @@ const ReviewTile = ({
           }}
         />
         <input
+        className="button"
           type="button"
           value="Delete Review"
           onClick={() => {
@@ -44,7 +47,7 @@ const ReviewTile = ({
   };
 
   let totalScore = 0;
-  votes.forEach(vote => totalScore += vote.score);
+  votes.forEach((vote) => (totalScore += vote.score));
 
   if (isBeingEdited) {
     return (
@@ -61,7 +64,7 @@ const ReviewTile = ({
   }
 
   return (
-    <div className="review-tile">
+    <div className="review-tile review-boxes">
       <div className="review-header">
         <div className="review-title-rating">
           <h4>{title}</h4>
@@ -75,8 +78,9 @@ const ReviewTile = ({
           submitVote={submitVote}
         />
       </div>
-      <div>
+      <div className="">
         <p>{content}</p>
+        <p>Posted by {creator}</p>
         {buttons}
       </div>
       <hr />

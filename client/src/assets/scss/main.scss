@@ -8,12 +8,17 @@
   box-sizing: border-box;
 }
 
+body {
+  font-family: "Comfortaa";
+}
+
 :root {
   -moz-tab-size: 4;
   tab-size: 4;
 }
 
-.review-header, .review-voting-area {
+.review-header,
+.review-voting-area {
   display: flex;
   justify-content: space-between;
   height: 60px;
@@ -38,10 +43,131 @@
   background-color: gray;
 }
 
+.top-bar {
+  background-color: #49DCB1;
+  border-radius: 25px;
+  font-family: "Comfortaa";
+}
+
+.drag-n-drop {
+  font-size: medium;
+  font-weight: 300;
+}
+
+.holy-grail-grid {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  grid-template-rows: 1fr 8fr 1fr;
+  grid-gap: 20px;
+  height: 100vh;
+
+  // redefining grid on small
+  @media screen and (max-width: 60em) {
+    grid-template-rows: 2fr 1fr 5fr 1fr;
+  }
+}
+
+.holy-grail-header,
+.holy-grail-left,
+.holy-grail-middle,
+.holy-grail-right,
+.holy-grail-footer {
+  padding: 1rem;
+  border: 1px solid #D7BEA8;
+  background-color: #D7BEA8
+}
+
+.holy-grail-header {
+  grid-column-start: 1;
+  grid-column-end: 4;
+  grid-row-start: 1;
+}
+
+.holy-grail-left {
+  @media screen and (max-width: 60em) {
+    grid-row-start: 2;
+    grid-column-start: 1;
+    grid-column-end: 4;
+  }
+}
+
+.holy-grail-middle {
+  @media screen and (max-width: 60em) {
+    grid-row-start: 3;
+    grid-column-start: 1;
+    grid-column-end: 4;
+  }
+}
+
+.right-nav {
+  @media screen and (max-width: 60em) {
+    grid-row-start: 4;
+    grid-column-start: 1;
+    grid-column-end: 4;
+  }
+}
+
+.holy-grail-footer {
+  grid-column-start: 1;
+  grid-column-end: 4;
+}
+
+.review-boxes {
+  text-align: left;
+  box-shadow: 0 0 0 1em #3d2c2e;
+  margin: 1em;
+  padding: 0.5em;
+  border-radius: 25px;
+}
+
+.review-form form {
+  box-shadow: 0 0 0 1em #3d2c2e;
+  margin: 1em;
+  padding: 0.5em;
+  border-radius: 25px;
+}
+
+.button {
+  position: auto;
+  top: 50%;
+  background-color: #177e89;
+  color: white;
+  border: none;
+  border-radius: 7px;
+}
+
 .red {
   background-color: red;
 }
 
 .green {
   background-color: green;
+}
+
+.attraction-image {
+  display: flex;
+}
+$hero-height: 50vh;
+
+.hero-section {
+  @media only screen and (min-width: 40.063em) and (max-width: 64em) {
+  background-size: cover;
+  height: $hero-height;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .hero-section-text {
+    color: $white;
+    text-shadow: 1px 1px 2px $black;
+  }
+}
+}
+.logo {
+  max-width: 10%;
+  max-height: 10%;
+}
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+  font-family: "Comfortaa";
 }
