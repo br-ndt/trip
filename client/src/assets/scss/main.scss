@@ -13,9 +13,35 @@
   tab-size: 4;
 }
 
+.review-header, .review-voting-area {
+  display: flex;
+  justify-content: space-between;
+  height: 60px;
+
+  .score-wrapper {
+    width: 60px;
+    height: 60px;
+    p {
+      font-size: 30pt;
+      text-align: center;
+    }
+  }
+  input {
+    width: 60px;
+  }
+}
+
 .locationImg-wrapper {
   margin: 20px auto;
   width: 800px;
   height: 400px;
   background-color: gray;
+}
+
+.red {
+  background-color: red;
+}
+
+.green {
+  background-color: green;
 }

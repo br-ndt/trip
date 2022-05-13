@@ -1,4 +1,5 @@
 import ReviewSerializer from "./ReviewSerializer.js";
+
 class AttractionSerializer {
   static async getSummary(attraction) {
     const allowedAttributes = ["id", "name", "description"];

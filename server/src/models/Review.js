@@ -11,7 +11,7 @@ class Review extends Model {
       required: ["title", "rating", "attractionId", "userId"],
       properties: {
         title: { type: "string" },
-        rating: { type: ["string", "integer"] },
+        rating: { type: ["string", "integer"], minimum: 1, maximum: 5 },
         content: { type: "string" },
         attractionId: { type: ["string", "integer"] },
         userId: { type: ["string", "integer"] },
@@ -20,7 +20,7 @@ class Review extends Model {
   }
 
   static get relationMappings() {
-    const { Attraction, User } = require("./index.js");
+    const { Attraction, User, Vote } = require("./index.js");
 
     return {
       attraction: {
@@ -37,6 +37,26 @@ class Review extends Model {
         join: {
           from: "reviews.userId",
           to: "users.id",
+        },
+      },
+      userVotes: {
+        relation: Model.ManyToManyRelation,
+        modelClass: User,
+        join: {
+          from: "reviews.id",
+          through: {
+            from: "votes.reviewId",
+            to: "votes.userId",
+          },
+          to: "users.id",
+        },
+      },
+      votes: {
+        relation: Model.HasManyRelation,
+        modelClass: Vote,
+        join: {
+          from: "reviews.id",
+          to: "votes.reviewId",
         },
       },
     };
